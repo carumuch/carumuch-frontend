@@ -137,3 +137,12 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  // 싹 다 0으로 하는건 뭔가 문제가 있었던 것 같아서..
+  // margin: 0;
+  // padding: 0;
+}

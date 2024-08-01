@@ -1,5 +1,4 @@
 // import IconInfo from './info.svg'
 
-export {
-  // IconInfo
-};
+export // IconInfo
+ {};
