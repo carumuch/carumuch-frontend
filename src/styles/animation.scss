@@ -1,0 +1,21 @@
+@keyframes loading {
+  0% {
+    transform: reotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  to {
+    opacity: 0;
+  }
+}

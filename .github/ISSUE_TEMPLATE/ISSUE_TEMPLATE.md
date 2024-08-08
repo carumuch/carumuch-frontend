@@ -4,10 +4,10 @@ about: 이슈 제목
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## 작업 내용
+
 - [ ] 구현내용1
 - [ ] 구현내용2
 
