@@ -1,0 +1,33 @@
+// example
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin responsive($breakpoint) {
+  // 480px 이상 ~
+  @if $breakpoint == base {
+    @media (max-width: $breakpoint-base) {
+      @content;
+    }
+  }
+
+  // 480px 미만 ~
+}
+
+// @mixin responsive-font($size) {
+// 	font-size: $size;
+
+// 	@media (max-width: $foobar) {
+// 		font-size: $size * 0.888;
+// 	}
+// }
+
+// @mixin responsive-font($size) {
+// 	font-size: $size;
+
+// 	@media (max-width: 600px) {
+// 		font-size: $size * 0.8;
+// 	}
+// }
