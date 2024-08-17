@@ -16,9 +16,10 @@ body {
 
 .container {
   background-color: white;
-  min-height: 900px;
-  max-width: 100%;
-  min-width: 480px;
+  min-height: 896px;
+  max-width: 480px;
+  // min-width: 100%;
+  padding: 0 2.9444vw 0 2.9444vw;
 }
 
 @media (max-width: 480px) {
