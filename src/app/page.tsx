@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Images from '../../public/images';
 
 export default function Home() {
@@ -36,7 +37,9 @@ export default function Home() {
       </Box>
       <Box mt="4">
         <Flex direction="column" gap="2">
-          <Button>일반 로그인</Button>
+          <Button bg="#0064FF" colorScheme="white">
+            <Link href="/login">일반 로그인</Link>
+          </Button>
           <Button bg="#FEE500" _hover={{}}>
             카카오 로그인
           </Button>

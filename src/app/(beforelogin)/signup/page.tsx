@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import signup from '@/services/users/signup';
 import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import CustomModal from '@/components/modal/CustomModal';
-import { useModal } from '@/hooks/useModal';
+import useModal from '@/hooks/useModal';
 import { SignupData } from '@/types/user';
 
 export default function SignupPage() {
@@ -92,7 +92,7 @@ export default function SignupPage() {
           <Button
             type="submit"
             colorScheme="blue"
-            isLoading={mutation.isLoading}
+            // isLoading={mutation.isLoading}
           >
             회원가입
           </Button>

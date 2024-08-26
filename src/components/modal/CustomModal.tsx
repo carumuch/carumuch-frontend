@@ -10,7 +10,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  // useDisclosure,
 } from '@chakra-ui/react';
 
 interface CustomModalProps {
