@@ -1,53 +1,33 @@
 'use client';
 
-import { ReactNode } from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-} from '@chakra-ui/react';
+import React from 'react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
+import { useModalContext } from './ModalContext';
+import { useRouter } from 'next/navigation';
 
-interface CustomModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  body: ReactNode;
-  footer?: ReactNode;
-}
+const CustomModal: React.FC = () => {
+  const { isOpen, modalMessage, modalTitle, isSignupSuccess, closeModal } = useModalContext();
+  const router = useRouter();
 
-function CustomModal({
-  isOpen,
-  onClose,
-  title,
-  body,
-  footer,
-}: CustomModalProps) {
+  const handleCloseModal = () => {
+    closeModal();
+    if (isSignupSuccess) {
+      router.push('/login');  // 회원가입 성공 시 /login 페이지로 이동
+    }
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleCloseModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{body}</ModalBody>
+        <ModalHeader>{modalTitle}</ModalHeader>
+        <ModalBody>{modalMessage}</ModalBody>
         <ModalFooter>
-          {footer || (
-            <Button colorScheme="blud" onClick={onClose}>
-              닫기
-            </Button>
-          )}
+          <Button onClick={handleCloseModal}>닫기</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
-}
-
-CustomModal.defaultProps = {
-  footer: null,
 };
 
 export default CustomModal;

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Providers from './providers';
+import Providers from './providers'; // 기존 Providers 컴포넌트 가져오기
+import { ModalProvider } from '@/components/modal/ModalContext';
+import CustomModal from '@/components/modal/CustomModal';
 import '../styles/globals.scss';
 
 const pretendard = localFont({
@@ -22,7 +24,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={pretendard.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ModalProvider>
+            {children}
+            <CustomModal />
+          </ModalProvider>
+        </Providers>
       </body>
     </html>
   );
