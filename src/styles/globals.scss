@@ -15,10 +15,12 @@ body {
 }
 
 .container {
+  position: relative;
   background-color: white;
-  min-height: 900px;
-  max-width: 100%;
+  min-height: 896px;
   min-width: 480px;
+  // padding: 0 2.9444vw 0 2.9444vw;
+  // min-width: 100%;
 }
 
 @media (max-width: 480px) {
