@@ -6,7 +6,6 @@ export const login = async (
 ): Promise<LoginResponse> => {
   const response = await axiosInstance.post('/login', credentials, {});
 
-  // 디버깅을 위해 응답 전체를 출력
   console.log('Response headers:', response.headers);
   //   console.log('Response data:', response.data);
 
