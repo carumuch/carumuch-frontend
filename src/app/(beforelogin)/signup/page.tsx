@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import signup from '@/services/users/signup';
 import {
   Box,
@@ -19,6 +18,7 @@ import {
 import { AtSignIcon, LockIcon, EmailIcon, InfoIcon } from '@chakra-ui/icons';
 import { useModalContext } from '@/components/modal/ModalContext';
 import { SignupData } from '@/types/user';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
   const { openModal, setIsSignupSuccess } = useModalContext(); // 상태 변경 함수 사용
@@ -37,6 +37,7 @@ export default function SignupPage() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter(); // useRouter 훅으로 페이지 리다이렉트 처리
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,7 +58,8 @@ export default function SignupPage() {
     // 아이디 유효성 검사: 영어 소문자와 숫자만 사용, 4~20자리
     const loginIdRegex = /^[a-z0-9]{4,20}$/;
     if (!loginIdRegex.test(signupData.loginId)) {
-      newErrors.loginId = '아이디는 영어 소문자와 숫자만 사용하여 4~20자리여야 합니다.';
+      newErrors.loginId =
+        '아이디는 영어 소문자와 숫자만 사용하여 4~20자리여야 합니다.';
       isValid = false;
     }
 
@@ -68,9 +70,11 @@ export default function SignupPage() {
     }
 
     // 비밀번호 유효성 검사: 8~16자리, 영문 대소문자, 숫자, 특수문자 포함
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
     if (!passwordRegex.test(signupData.password)) {
-      newErrors.password = '비밀번호는 8~16자리이며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.';
+      newErrors.password =
+        '비밀번호는 8~16자리이며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.';
       isValid = false;
     }
 
@@ -84,51 +88,41 @@ export default function SignupPage() {
     return isValid;
   };
 
-  const mutation = useMutation({
-    mutationFn: signup,
-    onMutate: () => setIsLoading(true),
-    onSuccess: () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) {
+      openModal('오류', '입력한 정보를 확인해주세요.');
+      return;
+    }
+
+    setIsLoading(true); // 로딩 상태 시작
+    try {
+      const response = await signup(signupData); // Axios를 통한 회원가입 요청
       setIsLoading(false);
       setIsSignupSuccess(true); // 회원가입 성공 시 상태 설정
+
+      // 성공 응답을 받은 경우
       openModal('성공', '회원가입이 성공적으로 완료되었습니다.');
-    },
-    onError: (error: any) => {
+
+      // 회원가입 성공 후 /login 페이지로 리다이렉트
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000); // 1초 후 리다이렉트 (사용자가 확인할 시간을 줌)
+    } catch (error: any) {
       setIsLoading(false);
       setIsSignupSuccess(false); // 오류 발생 시 상태 초기화
 
-      if (error.response) {
-        const { status, data } = error.response;
-
-        if (status === 409) {
-          // 409 상태 코드 처리: 아이디 또는 이메일 중복
-          openModal('오류', data.message || '아이디 또는 이메일이 이미 사용 중입니다.');
-        } else if (status === 400 && data.errors) {
-          const fieldErrors = data.errors;
-          const newErrors = { ...errors };
-
-          // 필드별 오류 메시지 설정
-          Object.keys(fieldErrors).forEach((field) => {
-            newErrors[field as keyof SignupData] = fieldErrors[field];
-          });
-
-          setErrors(newErrors);
-        } else if (status === 400) {
-          openModal('오류', data.message || '잘못된 요청입니다.');
-        } else {
-          openModal('오류', '회원가입 중 오류가 발생했습니다.');
-        }
+      // 백엔드 응답에 따른 오류 처리
+      if (error.status === 409) {
+        openModal(
+          '오류',
+          error.message || '이미 사용 중인 아이디 또는 이메일입니다.',
+        );
+      } else if (error.status === 400) {
+        openModal('오류', error.message || '잘못된 요청입니다.');
       } else {
         openModal('오류', '회원가입 중 오류가 발생했습니다.');
       }
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      mutation.mutate(signupData);
-    } else {
-      openModal('오류', '입력한 정보를 확인해주세요.');
     }
   };
 
@@ -206,7 +200,7 @@ export default function SignupPage() {
           <FormControl isInvalid={!!errors.name}>
             <InputGroup>
               <InputLeftElement pointerEvents="none" color="gray.500">
-                <InfoIcon/>
+                <InfoIcon />
               </InputLeftElement>
               <Input
                 variant="filled"
@@ -221,7 +215,12 @@ export default function SignupPage() {
             <FormErrorMessage>{errors.name}</FormErrorMessage>
           </FormControl>
 
-          <Button type="submit" colorScheme="purple" w="100%" disabled={isLoading}>
+          <Button
+            type="submit"
+            colorScheme="purple"
+            w="100%"
+            disabled={isLoading}
+          >
             {isLoading ? <Spinner size="sm" /> : '회원가입'}
           </Button>
         </Stack>

@@ -35,9 +35,10 @@ import axios from 'axios';
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080', // 예시로 기본 URL을 설정합니다.
   timeout: 5000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',  // JSON 형식으로 응답을 받을 것을 명시
+    Accept: 'application/json', // JSON 형식으로 응답을 받을 것을 명시
   },
 });
 

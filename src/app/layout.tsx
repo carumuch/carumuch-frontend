@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import Providers from './providers'; // 기존 Providers 컴포넌트 가져오기
 import { ModalProvider } from '@/components/modal/ModalContext';
 import CustomModal from '@/components/modal/CustomModal';
+import { GlobalLoadingSpinner } from '@/components/GlobalLoadingSpinner/GlobalLoadingSpinner';
 import '../styles/globals.scss';
 
 const pretendard = localFont({
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <Providers>
           <ModalProvider>
+            <GlobalLoadingSpinner />
             {children}
             <CustomModal />
           </ModalProvider>
