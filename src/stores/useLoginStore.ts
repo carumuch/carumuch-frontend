@@ -1,33 +1,35 @@
 import { create } from 'zustand';
 import axiosInstance from '../utils/axiosInstance';
-import { LoginCredentials } from '../types/auth';
-
-interface LoginState {
-  token: string | null;
-  refreshToken: string | null;
-  error: string | null;
-  isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
-}
+import { LoginCredentials, LoginResponse, LoginState } from '@/types/d';
 
 export const useLoginStore = create<LoginState>((set) => ({
   token: null,
   refreshToken: null,
   error: null,
   isLoading: false,
+
   login: async (credentials: LoginCredentials) => {
     set({ isLoading: true, error: null });
 
     try {
-      const response = await axiosInstance.post('/login', credentials);
+      const response = await axiosInstance.post<LoginResponse>(
+        '/login',
+        credentials,
+      );
 
       // JWT 토큰을 Authorization 헤더에서 추출
       const authorizationHeader = response.headers['authorization'];
+      const refreshToken = response.headers['set-cookie']?.[0]?.split('=')[1];
+
       if (authorizationHeader) {
         const token = authorizationHeader.split(' ')[1]; // Bearer 뒤의 실제 토큰
-        set({ token, isLoading: false });
-        localStorage.setItem('token', token); // JWT 토큰을 localStorage에 저장
-        // 여기서 /main으로 리디렉트
+        set({ token, refreshToken, isLoading: false });
+
+        // 토큰 저장
+        localStorage.setItem('token', token);
+        if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+
+        // 로그인 성공 후 메인 페이지로 리디렉션
         window.location.href = '/main';
       } else {
         throw new Error('Authorization 헤더에 토큰이 없습니다.');

@@ -1,38 +1,7 @@
-// import axiosInstance from '../utils/axiosInstance';
-// import { LoginCredentials, LoginResponse } from '../types/auth';
-
-// export const login = async (
-//   credentials: LoginCredentials,
-// ): Promise<LoginResponse> => {
-//   const response = await axiosInstance.post('/login', credentials);
-
-//   console.log('Response headers:', response.headers);
-//   //   console.log('Response data:', response.data);
-
-//   // JWT 토큰은 Authorization 헤더에서 추출
-//   const authorizationHeader = response.headers['authorization'];
-//   const token = authorizationHeader?.split(' ')[1]; // Bearer 토큰
-
-//   console.log('authorizationHeader: ', response.headers.Authorization);
-//   //   console.log('token: ', token);
-//   // Refresh 토큰은 Set-Cookie에서 추출
-//   const setCookieHeader = response.headers['set-cookie'];
-//   const refreshToken = setCookieHeader
-//     ?.find((cookie: string) => cookie.startsWith('refresh-token='))
-//     ?.split('=')[1]; // refresh-token 추출
-
-//   if (token && refreshToken) {
-//     return { token, refreshToken }; // 토큰들을 반환
-//   } else {
-//     throw new Error('로그인 중 문제가 발생했습니다.'); // 에러 발생 시 처리
-//   }
-// };
-
-// /services/auth.ts
-
 import axiosInstance from '../utils/axiosInstance';
-import { LoginCredentials, LoginResponse } from '../types/auth';
+import { LoginCredentials, LoginResponse } from '../types/d';
 
+// 로그인 요청을 수행하는 함수
 export const login = async (
   credentials: LoginCredentials,
 ): Promise<LoginResponse> => {
@@ -42,12 +11,28 @@ export const login = async (
       credentials,
     );
 
-    console.log('Response data:', response.data);
-    console.log('Response headers:', response.headers);
+    // JWT 토큰과 Refresh 토큰을 처리
+    const authorizationHeader = response.headers['authorization'];
+    const setCookieHeader = response.headers['set-cookie'];
 
-    return response.data; // JWT 토큰을 반환
-  } catch (error) {
-    console.error('Login error:', error);
-    throw error;
+    // Authorization 헤더에서 JWT 토큰 추출
+    const token = authorizationHeader?.split(' ')[1];
+
+    // Set-Cookie 헤더에서 Refresh 토큰 추출
+    const refreshToken = setCookieHeader
+      ?.find((cookie: string) => cookie.startsWith('refresh-token='))
+      ?.split('=')[1];
+
+    // 토큰이 모두 유효하면 반환
+    if (token && refreshToken) {
+      return { token, refreshToken };
+    } else {
+      throw new Error('로그인 중 문제가 발생했습니다.'); // 토큰이 없을 경우 에러 처리
+    }
+  } catch (error: any) {
+    console.error('Login error:', error.response?.data || error.message);
+    throw new Error(
+      error.response?.data?.message || '로그인 요청 중 문제가 발생했습니다.',
+    );
   }
 };
