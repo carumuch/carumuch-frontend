@@ -24,11 +24,15 @@ function LoginPage() {
   const { openModal } = useModal(); // 전역 모달 훅
 
   const handleSubmit = async () => {
-    const success = await login({ loginId, password }); // 로그인 요청
-    if (success) {
-      router.push('/main'); // 로그인 성공 시 /main으로 이동
-    } else if (error) {
-      openModal('로그인 실패', error); // 실패 시 백엔드 메시지로 모달 표시
+    try {
+      const success = await login({ loginId, password }); // 로그인 요청
+      if (success) {
+        router.push('/main'); // 로그인 성공 시 /main으로 이동
+      } else if (error) {
+        openModal('로그인 실패', error); // 실패 시 백엔드 메시지로 모달 표시
+      }
+    } catch (e: any) {
+      openModal('오류', e.message || '알 수 없는 오류가 발생했습니다.');
     }
   };
 

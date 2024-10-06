@@ -1,9 +1,23 @@
+'use client';
+
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Images from '../../public/images';
 
 export default function Home() {
+  const onKakaoLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/kakao';
+  };
+
+  const onNaverLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/naver';
+  };
+
+  const onGoogleLogin = () => {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  };
+
   return (
     <div className="container">
       <Box>
@@ -40,11 +54,15 @@ export default function Home() {
           <Button bg="#0064FF" colorScheme="white">
             <Link href="/login">일반 로그인</Link>
           </Button>
-          <Button bg="#FEE500" _hover={{}}>
+          <Button bg="#FEE500" _hover={{}} onClick={onKakaoLogin}>
             카카오 로그인
           </Button>
-          <Button bg="#03C75A">네이버 로그인</Button>
-          <Button bg="#EDF2F7">구글 로그인</Button>
+          <Button bg="#03C75A" _hover={{}} onClick={onNaverLogin}>
+            네이버 로그인
+          </Button>
+          <Button bg="#EDF2F7" _hover={{}} onClick={onGoogleLogin}>
+            구글 로그인
+          </Button>
         </Flex>
       </Box>
     </div>

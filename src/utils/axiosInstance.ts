@@ -1,35 +1,3 @@
-// import axios from 'axios';
-
-// const axiosInstance = axios.create({
-//   baseURL: 'http://localhost:8080',
-//   timeout: 5000,
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// });
-
-// // 요청 인터셉터
-// axiosInstance.interceptors.request.use(
-//   // 추후 토큰에 헤더에 추가할 때 수정
-//   (config) => {
-//     // config.headers.Authorization = `Bearer ${yourToken}`
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
-// // 응답 인터셉터
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
-// export default axiosInstance;
-
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -55,7 +23,10 @@ axiosInstance.interceptors.request.use(
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('Response from Axios Interceptor:', response);
+    return response;
+  },
   (error) => {
     // 에러 응답을 콘솔에 출력하여 확인
     console.error('Axios response error:', error);
