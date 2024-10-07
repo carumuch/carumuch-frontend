@@ -38,7 +38,7 @@ function LoginPage() {
 
   return (
     <Center h="100vh" bg="gray.800">
-      <Box p={8} rounded="md" w={['90%', '400px']} textAlign="center">
+      <Box p={8} rounded="md" w={['100%', '400px']} textAlign="center">
         <Text fontSize="lg" color="gray.100" mb={2}>
           Welcome
         </Text>
@@ -46,7 +46,7 @@ function LoginPage() {
           Car U Much
         </Text>
 
-        <Stack spacing={4} mb={6}>
+        <Stack spacing={3} mb={6}>
           {/* 로그인 아이디 입력 */}
           <InputGroup>
             <InputLeftElement pointerEvents="none" color="gray.500">

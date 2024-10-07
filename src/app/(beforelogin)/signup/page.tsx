@@ -128,7 +128,7 @@ export default function SignupPage() {
 
   return (
     <Center h="100vh" bg="gray.800">
-      <Box p={8} rounded="md" w={['90%', '400px']} textAlign="center">
+      <Box p={8} rounded="md" w={['100%', '480px']} textAlign="center">
         <Text fontSize="lg" color="gray.100" mb={2}>
           Join Us
         </Text>
@@ -136,7 +136,7 @@ export default function SignupPage() {
           Car U Much
         </Text>
 
-        <Stack spacing={4} mb={6} as="form" onSubmit={handleSubmit}>
+        <Stack spacing={3} mb={6} as="form" onSubmit={handleSubmit}>
           {/* 아이디 입력 필드 */}
           <FormControl isInvalid={!!errors.loginId}>
             <InputGroup>

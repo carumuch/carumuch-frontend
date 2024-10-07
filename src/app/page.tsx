@@ -1,11 +1,13 @@
 'use client';
 
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Stack, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import Images from '../../public/images';
 
-export default function Home() {
+export default function HomePage() {
+  const router = useRouter();
+
   const onKakaoLogin = () => {
     window.location.href = 'http://localhost:8080/oauth2/authorization/kakao';
   };
@@ -18,53 +20,46 @@ export default function Home() {
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   };
 
+  const handleRegularLogin = () => {
+    router.push('/login');
+  };
+
   return (
-    <div className="container">
-      <Box>
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          height="26vh"
-          mt="14"
-        >
-          <Flex direction="row" align="center">
-            <Text fontSize="5xl" fontWeight="bold">
-              Car U Much?
-            </Text>
-          </Flex>
-          <Text mt="2" fontSize="s" fontWeight="bold">
-            쉽고 빠른 AI 기반 견적 서비스 &quot;카우머치&quot;
+    <Center h="100vh" bg="gray.800">
+      <Box p={8} rounded="md" w="100%" maxW="400px" textAlign="center">
+        <Flex direction="column" align="center" mb={6}>
+          <Text fontSize="2xl" fontWeight="bold" color="white" mb={2}>
+            Car U Much?
+          </Text>
+          <Text color="gray.400" fontSize="sm">
+            쉽고 빠른 AI 기반 견적 서비스 "카우머치"
           </Text>
         </Flex>
-      </Box>
-      <Box>
-        <Flex align="center" justify="center">
+
+        <Flex justify="center" mb={6}>
           <Image
             src={Images.mainRepairIcon.src}
             width={Images.mainRepairIcon.width}
             height={Images.mainRepairIcon.height}
-            sizes="60%"
             alt="main repair icon"
           />
         </Flex>
-      </Box>
-      <Box mt="4">
-        <Flex direction="column" gap="2">
-          <Button bg="#0064FF" colorScheme="white">
-            <Link href="/login">일반 로그인</Link>
+
+        <Stack spacing={4} mb={6}>
+          <Button colorScheme="blue" w="100%" onClick={handleRegularLogin}>
+            일반 로그인
           </Button>
-          <Button bg="#FEE500" _hover={{}} onClick={onKakaoLogin}>
+          <Button bg="#FEE500" w="100%" onClick={onKakaoLogin} _hover={{}}>
             카카오 로그인
           </Button>
-          <Button bg="#03C75A" _hover={{}} onClick={onNaverLogin}>
+          <Button bg="#03C75A" w="100%" onClick={onNaverLogin} _hover={{}}>
             네이버 로그인
           </Button>
-          <Button bg="#EDF2F7" _hover={{}} onClick={onGoogleLogin}>
+          <Button bg="#EDF2F7" w="100%" onClick={onGoogleLogin} _hover={{}}>
             구글 로그인
           </Button>
-        </Flex>
+        </Stack>
       </Box>
-    </div>
+    </Center>
   );
 }

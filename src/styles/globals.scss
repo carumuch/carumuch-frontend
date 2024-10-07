@@ -2,29 +2,40 @@
 
 html,
 body {
-  height: 100%;
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #f0f0f0;
 }
 
 body {
-  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  background-color: #f0f0f0;
+  min-width: 480px; /* PC 환경에서 최소 너비 */
 }
 
 .container {
   position: relative;
   background-color: white;
-  min-height: 896px;
-  min-width: 480px;
-  // padding: 0 2.9444vw 0 2.9444vw;
-  // min-width: 100%;
+  width: 100%;
+  max-width: 480px; /* 모바일에서 최대 너비를 480px로 제한 */
+  min-height: 100vh;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* 모바일 레이아웃에서 공백 없이 표시 */
 @media (max-width: 480px) {
+  body {
+    display: block; /* 모바일 환경에서 flex 해제 */
+    min-width: 100%; /* 모바일 환경에서 최소 너비 제거 */
+  }
+
   .container {
-    min-width: 100%;
+    width: 100%;
+    max-width: 100%; /* 모바일에서 너비가 100%가 되도록 설정 */
+    margin: 0; /* 모바일에서 여백 제거 */
   }
 }
