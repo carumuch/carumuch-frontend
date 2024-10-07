@@ -16,6 +16,7 @@ function NavItem({ icon, label }: NavItemProps) {
         icon={<Box as={icon} w={6} h={6} />}
         variant="ghost"
         color="gray.600"
+        _hover={{ bg: 'gray.700', color: 'white' }}
       />
       <Text fontSize="sm" color="gray.600" mt={1}>
         {label}
@@ -31,7 +32,7 @@ function BottomNavBar() {
       position="fixed"
       bottom="0"
       width="100%"
-      maxW="480px" // 최대 너비를 480px로 설정
+      maxW="400px"
       bg="white"
       borderTop="1px solid"
       borderColor="gray.200"
@@ -39,6 +40,7 @@ function BottomNavBar() {
       alignItems="center"
       paddingY={2}
       zIndex="1000"
+      mx="auto"
     >
       <NavItem icon={AtSignIcon} label="홈" />
       <NavItem icon={AtSignIcon} label="차량정보" />
