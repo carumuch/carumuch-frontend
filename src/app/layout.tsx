@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Providers from './providers'; // 기존 Providers 컴포넌트 가져오기
+import Providers from './providers';
 import { ModalProvider } from '@/components/modal/ModalContext';
 import CustomModal from '@/components/modal/CustomModal';
 import { GlobalLoadingSpinner } from '@/components/GlobalLoadingSpinner/GlobalLoadingSpinner';
@@ -28,7 +28,7 @@ export default function RootLayout({
         <Providers>
           <ModalProvider>
             <GlobalLoadingSpinner />
-            {children}
+            <div className="container">{children}</div>
             <CustomModal />
           </ModalProvider>
         </Providers>

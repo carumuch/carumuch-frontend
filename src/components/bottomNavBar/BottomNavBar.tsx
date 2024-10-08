@@ -42,10 +42,10 @@ function BottomNavBar() {
       zIndex="1000"
       mx="auto"
     >
-      <NavItem icon={AtSignIcon} label="홈" />
-      <NavItem icon={AtSignIcon} label="차량정보" />
-      <NavItem icon={AtSignIcon} label="혜택" />
-      <NavItem icon={AtSignIcon} label="이용내역" />
+      <NavItem icon={AtSignIcon} label="메인" />
+      <NavItem icon={AtSignIcon} label="수리입찰" />
+      <NavItem icon={AtSignIcon} label="커뮤니티" />
+      <NavItem icon={AtSignIcon} label="입찰관리" />
       <NavItem icon={AtSignIcon} label="내 정보" />
     </Flex>
   );
