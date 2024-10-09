@@ -84,52 +84,6 @@ function BottomNavBar() {
           onClick={() => handleSelect('/profile')}
         />
       </Flex>
-      <Flex
-        as="nav"
-        // position="fixed"
-        bottom="0"
-        width="100%"
-        maxW="400px"
-        bg="white"
-        borderTop="1px solid"
-        borderColor="gray.200"
-        justifyContent="space-around"
-        alignItems="center"
-        paddingY={2}
-        // zIndex="1000"
-        mx="auto"
-      >
-        <NavItem
-          icon={AtSignIcon}
-          label="메인"
-          isSelected={pathname.startsWith('/main')}
-          onClick={() => handleSelect('/main')}
-        />
-        <NavItem
-          icon={AtSignIcon}
-          label="수리입찰"
-          isSelected={pathname.startsWith('/repair')}
-          onClick={() => handleSelect('/repair')}
-        />
-        <NavItem
-          icon={AtSignIcon}
-          label="커뮤니티"
-          isSelected={pathname.startsWith('/community')}
-          onClick={() => handleSelect('/community')}
-        />
-        <NavItem
-          icon={AtSignIcon}
-          label="입찰관리"
-          isSelected={pathname === '/bid'}
-          onClick={() => handleSelect('/bid')}
-        />
-        <NavItem
-          icon={AtSignIcon}
-          label="내 정보"
-          isSelected={pathname.startsWith('/profile')}
-          onClick={() => handleSelect('/profile')}
-        />
-      </Flex>
     </>
   );
 }
