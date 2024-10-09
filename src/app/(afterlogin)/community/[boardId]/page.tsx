@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Stack, Text, Divider } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider, Button } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { useState } from 'react';
@@ -12,6 +12,7 @@ interface CommentProps {
   date: string;
 }
 
+// 게시글 타입 정의
 interface PostDetailsProps {
   author: string;
   date: string;
@@ -20,7 +21,7 @@ interface PostDetailsProps {
   comments: CommentProps[];
 }
 
-// 댓글 컴포넌트
+// 댓글 컴포넌트 분리
 function Comment({ author, content, date }: CommentProps) {
   return (
     <Box
@@ -73,6 +74,16 @@ export default function PostDetailsPage() {
     ],
   });
 
+  const handleEdit = () => {
+    console.log('수정 버튼 클릭됨');
+    // 수정 페이지로 이동하는 로직 추가
+  };
+
+  const handleDelete = () => {
+    console.log('삭제 버튼 클릭됨');
+    // 삭제 처리 로직 추가
+  };
+
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
       {/* 헤더 */}
@@ -83,12 +94,32 @@ export default function PostDetailsPage() {
         <Stack spacing={6}>
           {/* 게시글 정보 */}
           <Box>
-            <Text fontSize="sm" color="gray.400">
-              {post.author}
-            </Text>
-            <Text fontSize="sm" color="gray.400" mb={4}>
-              {post.date}
-            </Text>
+            <Flex justifyContent="space-between" alignItems="center" mb={2}>
+              <Box>
+                <Text fontSize="sm" color="gray.400">
+                  {post.author}
+                </Text>
+                <Text fontSize="sm" color="gray.400" mb={4}>
+                  {post.date}
+                </Text>
+              </Box>
+
+              {/* 수정, 삭제 버튼 */}
+              <Box>
+                <Button
+                  size="sm"
+                  colorScheme="blue"
+                  onClick={handleEdit}
+                  mr={2}
+                >
+                  수정
+                </Button>
+                <Button size="sm" colorScheme="red" onClick={handleDelete}>
+                  삭제
+                </Button>
+              </Box>
+            </Flex>
+
             <Text fontSize="2xl" fontWeight="bold" color="white" mb={4}>
               {post.title}
             </Text>
