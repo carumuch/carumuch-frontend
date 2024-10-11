@@ -14,6 +14,7 @@ import {
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { useModalContext } from '@/components/modal/ModalContext'; // 공용 모달 훅
+import { uploadImage } from '@/services/image';
 import helpImg1 from '/public/images/help_img_1.jpg'; // 첫 번째 예시 이미지
 import helpImg2 from '/public/images/help_img_2.jpg'; // 두 번째 예시 이미지
 
@@ -21,6 +22,7 @@ export default function RepairEstimatePage() {
   const { openModal } = useModalContext(); // 공용 모달 사용
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null); // 업로드된 이미지 URL
   const [inquiry, setInquiry] = useState(''); // 문의 내용 상태
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
@@ -28,11 +30,28 @@ export default function RepairEstimatePage() {
   const [selectedRideOption, setSelectedRideOption] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
 
+  // 이미지 변경 핸들러
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedImage(file);
       setImagePreview(URL.createObjectURL(file)); // 이미지 미리보기 설정
+    }
+  };
+
+  // 이미지 업로드 처리
+  const handleUpload = async () => {
+    if (!selectedImage) {
+      openModal('오류', '이미지를 선택해주세요.');
+      return;
+    }
+
+    try {
+      const uploadedUrl = await uploadImage(selectedImage);
+      setUploadedImageUrl(uploadedUrl);
+      openModal('성공', '이미지가 성공적으로 업로드되었습니다.');
+    } catch (error: any) {
+      openModal('오류', error.message);
     }
   };
 
@@ -64,7 +83,7 @@ export default function RepairEstimatePage() {
       return;
     }
 
-    // 첨부한 사진과 문의 내용 등을 서버로 보내는 로직 추가
+    // 서버로 문의 내용과 이미지를 전송하는 로직 추가 필요
     console.log('AI 견적 요청 제출');
   };
 
@@ -87,7 +106,7 @@ export default function RepairEstimatePage() {
             <Box mt={4} bg="gray.700" p={4} rounded="md" textAlign="center">
               {imagePreview ? (
                 <Image
-                  src={helpImg1.src}
+                  src={imagePreview}
                   alt="미리보기 이미지"
                   width={300}
                   height={200}
@@ -103,6 +122,14 @@ export default function RepairEstimatePage() {
                 onChange={handleImageChange}
                 style={{ marginTop: '10px' }}
               />
+              <Button
+                colorScheme="blue"
+                size="sm"
+                mt={2}
+                onClick={handleUpload}
+              >
+                이미지 업로드
+              </Button>
             </Box>
           </Box>
 
@@ -114,7 +141,6 @@ export default function RepairEstimatePage() {
             <Textarea
               placeholder="문의 내용을 입력해주세요."
               bg="gray.700"
-              // color="white"
               minHeight="120px"
               resize="none"
               value={inquiry}
@@ -133,14 +159,13 @@ export default function RepairEstimatePage() {
               <Select
                 placeholder="선택해주세요"
                 bg="gray.700"
-                color="white" // 글자가 하얀색이여서 expanded상태에서 잘 안보이는 문제 발생. 모바일에서는 괜찮음
+                color="white"
                 flex="1"
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
                 variant="filled"
                 _placeholder="filled"
                 _hover={{}}
-                _expanded={{ color: 'dark' }} // 드롭다운이 열렸을 때
               >
                 <option value="seoul">서울시</option>
                 <option value="busan">부산시</option>
@@ -227,7 +252,7 @@ export default function RepairEstimatePage() {
       </Box>
 
       {/* 하단 네비게이션 */}
-      {/* <BottomNavBar /> */}
+      <BottomNavBar />
     </Flex>
   );
 }

@@ -9,7 +9,13 @@ import Link from 'next/link';
 
 export default function RepairPage() {
   return (
-    <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
+    <Flex
+      direction="column"
+      alignItems="center"
+      bg="gray.800"
+      minH="100vh"
+      mb={24}
+    >
       {/* 헤더 */}
       <Header title="입찰 안내" />
 
@@ -83,7 +89,7 @@ export default function RepairPage() {
         </Stack>
       </Box>
       {/* 하단 네비게이션 */}
-      {/* <BottomNavBar /> */}
+      <BottomNavBar />
     </Flex>
   );
 }
