@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
-    // 추후 토큰을 헤더에 추가할 때 수정 가능
+
     return config;
   },
   (error) => Promise.reject(error),
