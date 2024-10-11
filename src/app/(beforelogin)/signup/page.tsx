@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import signup from '@/services/users/signup';
+import signup from '@/services/signup';
 import {
   Box,
   Button,
