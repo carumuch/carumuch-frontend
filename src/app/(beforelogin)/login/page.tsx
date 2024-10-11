@@ -13,26 +13,29 @@ import {
 import { AtSignIcon, LockIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // useRouter 훅
-import { useLoginStore } from '@/stores/useLoginStore'; // Zustand 상태
+// import { useLoginStore } from '@/stores/useLoginStore'; // Zustand 상태
+import { login } from '@/services/auth';
 import useModal from '@/hooks/useModal';
 
 function LoginPage() {
   const [loginId, setLoginId] = useState(''); // 로그인 ID 상태
   const [password, setPassword] = useState(''); // 비밀번호 상태
-  const { login, isLoading, error } = useLoginStore(); // Zustand 로그인 상태 사용
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter(); // 리디렉션을 위한 useRouter
   const { openModal } = useModal(); // 전역 모달 훅
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const success = await login({ loginId, password }); // 로그인 요청
-      if (success) {
-        router.push('/main'); // 로그인 성공 시 /main으로 이동
-      } else if (error) {
-        openModal('로그인 실패', error); // 실패 시 백엔드 메시지로 모달 표시
-      }
+      await login({ loginId, password });
+      router.push('/main');
     } catch (e: any) {
-      openModal('오류', e.message || '알 수 없는 오류가 발생했습니다.');
+      setError(e.message);
+      openModal('로그인 실패', e.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
