@@ -3,11 +3,7 @@ import { SignupData } from '@/types/d.ts';
 
 const signup = async (data: SignupData) => {
   try {
-    const response = await axiosInstance.post('/users/signup', data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axiosInstance.post('/users/signup', data);
     return response.data.user_id; // 성공 시 반환되는 user_id 반환
   } catch (error: any) {
     if (error.response) {
