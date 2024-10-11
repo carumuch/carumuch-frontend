@@ -12,23 +12,26 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
-import Header from '@/components/header/Header'; // 기존 헤더 사용
-import { useModalContext } from '@/components/modal/ModalContext'; // 공용 모달 훅
+import Header from '@/components/header/Header';
+import { useModalContext } from '@/components/modal/ModalContext';
 import { uploadImage } from '@/services/image';
-import helpImg1 from '/public/images/help_img_1.jpg'; // 첫 번째 예시 이미지
-import helpImg2 from '/public/images/help_img_2.jpg'; // 두 번째 예시 이미지
+import { registerVehicleEstimate } from '@/services/estimate'; // AI 견적 API 추가
+import { useRouter } from 'next/navigation';
 
 export default function RepairEstimatePage() {
   const { openModal } = useModalContext(); // 공용 모달 사용
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null); // 업로드된 이미지 URL
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [inquiry, setInquiry] = useState(''); // 문의 내용 상태
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [selectedDamage, setSelectedDamage] = useState('');
   const [selectedRideOption, setSelectedRideOption] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   // 이미지 변경 핸들러
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,44 +58,52 @@ export default function RepairEstimatePage() {
     }
   };
 
-  const handleSubmit = () => {
-    if (!inquiry) {
-      openModal('오류', '문의 내용을 입력해주세요.');
+  // AI 견적 요청 제출 핸들러
+  const handleSubmit = async () => {
+    if (
+      !inquiry ||
+      !selectedLocation ||
+      !selectedDistrict ||
+      !selectedDamage ||
+      !selectedRideOption ||
+      !selectedBrand ||
+      !uploadedImageUrl
+    ) {
+      openModal('오류', '모든 항목을 입력해주세요.');
       return;
     }
 
-    // 선택 항목 미선택 시 모달 표시
-    if (!selectedLocation) {
-      openModal('오류', '공업사 선호 위치를 선택해주세요.');
-      return;
-    }
-    if (!selectedDistrict) {
-      openModal('오류', '공업사 선호 구를 선택해주세요.');
-      return;
-    }
-    if (!selectedDamage) {
-      openModal('오류', '예상 파손 부위를 선택해주세요.');
-      return;
-    }
-    if (!selectedRideOption) {
-      openModal('오류', '차량 탑승 여부를 선택해주세요.');
-      return;
-    }
-    if (!selectedBrand) {
-      openModal('오류', '차량 브랜드를 선택해주세요.');
-      return;
-    }
+    setIsLoading(true);
 
-    // 서버로 문의 내용과 이미지를 전송하는 로직 추가 필요
-    console.log('AI 견적 요청 제출');
+    try {
+      const vehicleId = 1; // vehicleId는 실제 API에서 받아와야 합니다
+      const estimateData = {
+        imagePath: uploadedImageUrl,
+        description: inquiry,
+        damageArea: selectedDamage,
+        preferredRepairSido: selectedLocation,
+        preferredRepairSigungu: selectedDistrict,
+        isPickupRequired: selectedRideOption === 'true',
+      };
+
+      // 차량 견적 등록 API 호출
+      const response = await registerVehicleEstimate(vehicleId, estimateData);
+      openModal('성공', response.message);
+
+      // 성공 시 쿼리 파라미터를 사용해 /estimate/result로 이동
+      router.push(
+        `/repair/estimate/result?url=${encodeURIComponent(uploadedImageUrl)}&manufacturer=${encodeURIComponent(selectedBrand)}`,
+      );
+    } catch (error: any) {
+      openModal('오류', error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
-      {/* 헤더 */}
       <Header title="수리 입찰" />
-
-      {/* 메인 콘텐츠 */}
       <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
         <Stack spacing={6}>
           {/* 파손 사진 섹션 */}
@@ -127,6 +138,7 @@ export default function RepairEstimatePage() {
                 size="sm"
                 mt={2}
                 onClick={handleUpload}
+                isLoading={isLoading}
               >
                 이미지 업로드
               </Button>
@@ -146,7 +158,6 @@ export default function RepairEstimatePage() {
               value={inquiry}
               onChange={(e) => setInquiry(e.target.value)}
               variant="filled"
-              _hover={{}}
             />
           </Box>
 
@@ -164,11 +175,9 @@ export default function RepairEstimatePage() {
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
                 variant="filled"
-                _placeholder="filled"
-                _hover={{}}
               >
-                <option value="seoul">서울시</option>
-                <option value="busan">부산시</option>
+                <option value="서울시">서울시</option>
+                <option value="고양시">고양시</option>
               </Select>
               <Select
                 placeholder="선택해주세요"
@@ -178,11 +187,9 @@ export default function RepairEstimatePage() {
                 value={selectedDistrict}
                 onChange={(e) => setSelectedDistrict(e.target.value)}
                 variant="filled"
-                _placeholder="filled"
-                _hover={{}}
               >
-                <option value="songpa">송파구</option>
-                <option value="gangnam">강남구</option>
+                <option value="송파구">송파구</option>
+                <option value="강남구">강남구</option>
               </Select>
             </Flex>
           </Box>
@@ -198,17 +205,15 @@ export default function RepairEstimatePage() {
               value={selectedDamage}
               onChange={(e) => setSelectedDamage(e.target.value)}
               variant="filled"
-              _placeholder="filled"
-              _hover={{}}
             >
-              <option value="bumper">범퍼</option>
-              <option value="door">도어</option>
+              <option value="범퍼">범퍼</option>
+              <option value="문">도어</option>
             </Select>
           </Box>
 
           <Box>
             <Text fontSize="lg" fontWeight="bold" color="white" mb={2}>
-              차량 탑승 여부
+              차량 탁송 여부
             </Text>
             <Select
               placeholder="선택해주세요"
@@ -217,11 +222,9 @@ export default function RepairEstimatePage() {
               value={selectedRideOption}
               onChange={(e) => setSelectedRideOption(e.target.value)}
               variant="filled"
-              _placeholder="filled"
-              _hover={{}}
             >
-              <option value="yes">필요</option>
-              <option value="no">불필요</option>
+              <option value="true">필요</option>
+              <option value="false">불필요</option>
             </Select>
           </Box>
 
@@ -236,8 +239,6 @@ export default function RepairEstimatePage() {
               value={selectedBrand}
               onChange={(e) => setSelectedBrand(e.target.value)}
               variant="filled"
-              _placeholder="filled"
-              _hover={{}}
             >
               <option value="hyundai">현대</option>
               <option value="kia">기아</option>
@@ -245,13 +246,18 @@ export default function RepairEstimatePage() {
           </Box>
 
           {/* 견적 받기 버튼 */}
-          <Button colorScheme="blue" size="lg" w="100%" onClick={handleSubmit}>
+          <Button
+            colorScheme="blue"
+            size="lg"
+            w="100%"
+            onClick={handleSubmit}
+            isLoading={isLoading}
+          >
             AI 견적 받기
           </Button>
         </Stack>
       </Box>
 
-      {/* 하단 네비게이션 */}
       <BottomNavBar />
     </Flex>
   );

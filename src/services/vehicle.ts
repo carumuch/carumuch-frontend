@@ -1,19 +1,25 @@
 import axiosInstance from '@/utils/axiosInstance';
 
 // 차량 정보 조회 API
-export const fetchVehicleInfo = async () => {
+export const getVehicleInfo = async () => {
   try {
     const response = await axiosInstance.get('/vehicles');
 
     if (response.data.success) {
-      return response.data.response; // 성공 시 차량 정보를 반환
+      return response.data.response; // 차량 정보 반환
     } else {
-      throw new Error(response.data.message); // 백엔드의 메시지를 활용한 오류 처리
+      throw new Error(
+        response.data.message || '차량 정보를 불러오는 중 문제가 발생했습니다.',
+      );
     }
   } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || '차량 정보 조회 중 오류가 발생했습니다.';
-    throw new Error(errorMessage); // 프론트에서 모달로 보여줄 수 있는 에러 메시지를 던짐
+    if (error.response) {
+      const errorMessage =
+        error.response.data?.message || '서버에서 문제가 발생했습니다.';
+      throw new Error(errorMessage);
+    } else {
+      throw new Error('네트워크 오류가 발생했습니다.');
+    }
   }
 };
 

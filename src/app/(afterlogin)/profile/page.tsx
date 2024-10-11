@@ -5,6 +5,7 @@ import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function MyPage() {
   const router = useRouter();
@@ -132,6 +133,22 @@ export default function MyPage() {
               </Text>
               <ChevronRightIcon boxSize={6} color="gray.400" />
             </Flex>
+            <Link href={'/profile/addVehicle'}>
+              <Flex
+                justifyContent="space-between"
+                alignItems="center"
+                p={3}
+                bg="gray.700"
+                rounded="md"
+                mb={2}
+                onClick={() => handleNavigation('/mypage/blocked')}
+              >
+                <Text color="white" fontSize="md">
+                  차량 추가
+                </Text>
+                <ChevronRightIcon boxSize={6} color="gray.400" />
+              </Flex>
+            </Link>
           </Box>
 
           {/* <Divider borderColor="gray.600" /> */}
