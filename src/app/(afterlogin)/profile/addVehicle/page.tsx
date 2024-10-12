@@ -9,13 +9,11 @@ import {
   Text,
   Input,
   Select,
-  Image,
 } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
 import { useModalContext } from '@/components/modal/ModalContext';
 import { registerVehicle } from '@/services/vehicle';
-import { uploadImage } from '@/services/image';
 import { useRouter } from 'next/navigation';
 
 export default function VehicleRegisterPage() {
@@ -27,35 +25,8 @@ export default function VehicleRegisterPage() {
   const [modelYear, setModelYear] = useState('');
   const [modelName, setModelName] = useState('');
   const [ownerName, setOwnerName] = useState('');
-  const [imagePath, setImagePath] = useState<string | null>(null); // 이미지 경로 상태
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); // 선택한 이미지 파일
   const [isLoading, setIsLoading] = useState(false);
 
-  // 이미지 선택 핸들러
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedImage(file); // 선택한 이미지 파일 설정
-    }
-  };
-
-  // 이미지 업로드 핸들러
-  const handleImageUpload = async () => {
-    if (!selectedImage) {
-      openModal('오류', '이미지를 선택해주세요.');
-      return;
-    }
-
-    try {
-      const uploadedImageUrl = await uploadImage(selectedImage); // 이미지 업로드 후 URL 반환
-      setImagePath(uploadedImageUrl); // 이미지 경로 설정
-      openModal('성공', '이미지가 성공적으로 업로드되었습니다.');
-    } catch (error: any) {
-      openModal('오류', error.message);
-    }
-  };
-
-  // 차량 등록 핸들러
   const handleSubmit = async () => {
     // 필드 검증
     if (
@@ -64,8 +35,7 @@ export default function VehicleRegisterPage() {
       !brand ||
       !modelYear ||
       !modelName ||
-      !ownerName ||
-      !imagePath // 이미지 업로드 여부 확인
+      !ownerName
     ) {
       openModal('오류', '모든 필드를 입력해주세요.');
       return;
@@ -80,7 +50,6 @@ export default function VehicleRegisterPage() {
         modelYear: parseInt(modelYear, 10), // 숫자 변환
         modelName,
         ownerName,
-        imagePath, // 업로드된 이미지 경로 포함
       };
 
       // API 호출
@@ -198,46 +167,15 @@ export default function VehicleRegisterPage() {
             />
           </Box>
 
-          {/* 이미지 업로드 */}
-          <Box>
-            <Text fontSize="lg" fontWeight="bold" color="white" mb={2}>
-              차량 이미지 업로드
-            </Text>
-            <Input type="file" accept="image/*" onChange={handleImageChange} />
-            <Button
-              colorScheme="blue"
-              size="sm"
-              mt={2}
-              onClick={handleImageUpload}
-              isLoading={isLoading}
-            >
-              이미지 업로드
-            </Button>
-
-            {imagePath && (
-              <Box mt={4}>
-                <Text color="gray.400">업로드된 이미지 미리보기:</Text>
-                <Image src={imagePath} alt="차량 이미지" boxSize="200px" />
-              </Box>
-            )}
-          </Box>
-
           {/* 등록 버튼 */}
-
           <Button
-            href={{
-              pathname: '/estimate/results',
-              query: {
-                imagePath: imagePath, // 업로드한 이미지 경로
-                manufacturer: brand, // 차량 브랜드 (manufacturer)
-              },
-            }}
             colorScheme="blue"
             size="lg"
             w="100%"
-            isDisabled={!imagePath || !brand} // 이미지와 브랜드가 없으면 비활성화
+            onClick={handleSubmit}
+            isLoading={isLoading}
           >
-            AI 견적 받기
+            차량 등록
           </Button>
         </Stack>
       </Box>
