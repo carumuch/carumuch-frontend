@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'; // useRouter 훅
 // import { useLoginStore } from '@/stores/useLoginStore'; // Zustand 상태
 import { login } from '@/services/auth';
 import useModal from '@/hooks/useModal';
+import Link from 'next/link';
 
 function LoginPage() {
   const [loginId, setLoginId] = useState(''); // 로그인 ID 상태
@@ -96,15 +97,18 @@ function LoginPage() {
           </Button>
 
           {/* 회원가입 버튼 */}
-          <Button
-            variant="outline"
-            w="100%"
-            mb={4}
-            borderColor="whiteAlpha.300"
-            color="white"
-          >
-            회원가입
-          </Button>
+          <Link href="/signup">
+            <Button
+              variant="outline"
+              w="100%"
+              mb={4}
+              borderColor="whiteAlpha.300"
+              color="white"
+              _hover={{}}
+            >
+              회원가입
+            </Button>
+          </Link>
         </Stack>
 
         <Text color="gray.400" mb={4}>

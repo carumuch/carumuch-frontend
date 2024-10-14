@@ -1,7 +1,8 @@
 'use client';
 
 import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
-import { AtSignIcon } from '@chakra-ui/icons';
+import { AtSignIcon, InfoOutlineIcon, ChatIcon } from '@chakra-ui/icons';
+import { FaCarAlt, FaHome, FaEnvelopeOpenText } from 'react-icons/fa';
 import { useRouter, usePathname } from 'next/navigation';
 
 interface NavItemProps {
@@ -54,31 +55,31 @@ function BottomNavBar() {
         mx="auto"
       >
         <NavItem
-          icon={AtSignIcon}
+          icon={FaHome}
           label="메인"
           isSelected={pathname.startsWith('/main')}
           onClick={() => handleSelect('/main')}
         />
         <NavItem
-          icon={AtSignIcon}
+          icon={FaCarAlt}
           label="수리입찰"
           isSelected={pathname.startsWith('/repair')}
           onClick={() => handleSelect('/repair')}
         />
         <NavItem
-          icon={AtSignIcon}
+          icon={ChatIcon}
           label="커뮤니티"
           isSelected={pathname.startsWith('/community')}
           onClick={() => handleSelect('/community')}
         />
         <NavItem
-          icon={AtSignIcon}
+          icon={FaEnvelopeOpenText}
           label="입찰관리"
           isSelected={pathname === '/bid'}
           onClick={() => handleSelect('/bid')}
         />
         <NavItem
-          icon={AtSignIcon}
+          icon={InfoOutlineIcon}
           label="내 정보"
           isSelected={pathname.startsWith('/profile')}
           onClick={() => handleSelect('/profile')}
