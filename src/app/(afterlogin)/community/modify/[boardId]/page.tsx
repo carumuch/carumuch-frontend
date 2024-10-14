@@ -37,25 +37,29 @@ export default function ModifyPage({
           {/* 제목 수정 필드 */}
           <Box>
             <Input
-              placeholder="이미 있는 제목수정가능"
+              value="차량 덴트 해보신분 계신가요?"
+              placeholder="제목 수정"
               bg="gray.700"
               color="white"
               size="lg"
               variant="filled"
               _placeholder={{ color: 'gray.500' }}
+              _hover={{}}
             />
           </Box>
 
           {/* 내용 수정 필드 */}
           <Box>
             <Textarea
-              placeholder="내용을 수정하는 곳"
+              value="셀프덴트라고 아시니요?? 제가 요즘 이용하고 있는 체험단에서 신청해서 선정되어 물건을 받고 사용 후기를 올리려고 합니다."
+              placeholder="내용 수정"
               bg="gray.700"
               color="white"
               minHeight="300px"
               resize="none"
               variant="filled"
               _placeholder={{ color: 'gray.500' }}
+              _hover={{}}
             />
           </Box>
 

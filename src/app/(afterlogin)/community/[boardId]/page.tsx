@@ -4,6 +4,7 @@ import { Box, Flex, Stack, Text, Divider, Button } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // 댓글 타입 정의
 interface CommentProps {
@@ -46,41 +47,41 @@ function Comment({ author, content, date }: CommentProps) {
 }
 
 export default function PostDetailsPage() {
+  const router = useRouter();
   const [post] = useState<PostDetailsProps>({
-    author: '사용자 이름',
-    date: '2024-10-07 13:01',
-    title: '제목입니다.',
+    author: '차량사고엔차박고',
+    date: '2024-10-10 13:01',
+    title: '차량 덴트 해보신분 계신가요?',
     content:
-      '이 부분은 내용입니다. 내용이에요. 내용을 입력합니다. 이 부분은 내용입니다.내용입니다.',
+      '셀프덴트라고 아시니요?? 제가 요즘 이용하고 있는 체험단에서 신청해서 선정되어 물건을 받고 사용 후기를 올리려고 합니다.',
     comments: [
       {
-        author: '사용자 이름1',
+        author: '방금사고남',
         content:
-          '댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.',
-        date: '2024-10-07 13:01',
+          '판금과 덴트는 사고를 부분적으로 수리하는 대표적인 방법입니다. ',
+        date: '2024-10-11 14:28',
       },
       {
-        author: '사용자 이름2',
-        content:
-          '댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.',
-        date: '2024-10-07 13:01',
+        author: '팔랑귀',
+        content: '관심있습니다! 어디로 연락할까요?',
+        date: '2024-10-12 16:01',
       },
-      {
-        author: '사용자 이름3',
-        content:
-          '댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.',
-        date: '2024-10-07 13:01',
-      },
+      // {
+      //   author: '사용자 이름3',
+      //   content:
+      //     '댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.',
+      //   date: '2024-10-10 13:01',
+      // },
     ],
   });
 
   const handleEdit = () => {
-    console.log('수정 버튼 클릭됨');
+    router.push(`/community/modify/1`);
     // 수정 페이지로 이동하는 로직 추가
   };
 
   const handleDelete = () => {
-    console.log('삭제 버튼 클릭됨');
+    alert('삭제하시겠습니까?');
     // 삭제 처리 로직 추가
   };
 
@@ -94,7 +95,7 @@ export default function PostDetailsPage() {
         <Stack spacing={6}>
           {/* 게시글 정보 */}
           <Box>
-            <Flex justifyContent="space-between" alignItems="center" mb={2}>
+            <Flex justifyContent="space-between" mb={2}>
               <Box>
                 <Text fontSize="sm" color="gray.400">
                   {post.author}
@@ -133,7 +134,7 @@ export default function PostDetailsPage() {
           {/* 댓글 섹션 */}
           <Box>
             <Text fontSize="lg" fontWeight="bold" color="white" mb={4}>
-              댓글
+              댓글 2개
             </Text>
             {post.comments.map((comment, index) => (
               <Comment
