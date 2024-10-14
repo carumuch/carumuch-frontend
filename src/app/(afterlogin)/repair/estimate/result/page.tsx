@@ -43,7 +43,7 @@ export default function EstimateResultPage() {
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
       <Header title="분석 결과" />
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={24}>
         <Stack spacing={6}>
           {/* 파손 분석 섹션 */}
           <Box>

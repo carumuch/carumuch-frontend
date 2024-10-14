@@ -158,6 +158,8 @@ export default function RepairEstimatePage() {
               value={inquiry}
               onChange={(e) => setInquiry(e.target.value)}
               variant="filled"
+              color="white"
+              _hover={{}}
             />
           </Box>
 
@@ -175,6 +177,7 @@ export default function RepairEstimatePage() {
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
                 variant="filled"
+                _hover={{}}
               >
                 <option value="서울시">서울시</option>
                 <option value="고양시">고양시</option>
@@ -187,6 +190,7 @@ export default function RepairEstimatePage() {
                 value={selectedDistrict}
                 onChange={(e) => setSelectedDistrict(e.target.value)}
                 variant="filled"
+                _hover={{}}
               >
                 <option value="송파구">송파구</option>
                 <option value="강남구">강남구</option>
@@ -205,6 +209,7 @@ export default function RepairEstimatePage() {
               value={selectedDamage}
               onChange={(e) => setSelectedDamage(e.target.value)}
               variant="filled"
+              _hover={{}}
             >
               <option value="범퍼">범퍼</option>
               <option value="문">도어</option>
@@ -222,6 +227,7 @@ export default function RepairEstimatePage() {
               value={selectedRideOption}
               onChange={(e) => setSelectedRideOption(e.target.value)}
               variant="filled"
+              _hover={{}}
             >
               <option value="true">필요</option>
               <option value="false">불필요</option>
@@ -239,6 +245,7 @@ export default function RepairEstimatePage() {
               value={selectedBrand}
               onChange={(e) => setSelectedBrand(e.target.value)}
               variant="filled"
+              _hover={{}}
             >
               <option value="hyundai">현대</option>
               <option value="kia">기아</option>
