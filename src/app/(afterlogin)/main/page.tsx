@@ -96,7 +96,7 @@ export default function Main() {
                 커뮤니티 이동
               </Text>
               <Text fontSize="sm" color="gray.400">
-                자주들과 의견을 나눠보세요
+                의견을 나눠보세요
               </Text>
             </Box>
             <Box
