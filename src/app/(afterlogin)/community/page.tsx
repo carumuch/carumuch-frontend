@@ -44,11 +44,11 @@ export default function CommunityPage() {
       alignItems="center"
       bg="gray.800"
       minH="100vh"
-      mb={27}
+      // mb={28}
     >
       <Header title="커뮤니티" />
 
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={20}>
         <Stack spacing={2}>
           {posts.map((post) => (
             <PostPreview
