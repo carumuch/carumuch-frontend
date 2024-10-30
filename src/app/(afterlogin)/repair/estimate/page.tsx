@@ -102,7 +102,13 @@ export default function RepairEstimatePage() {
   };
 
   return (
-    <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
+    <Flex
+      direction="column"
+      alignItems="center"
+      bg="gray.800"
+      minH="100vh"
+      mb={20}
+    >
       <Header title="수리 입찰" />
       <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
         <Stack spacing={6}>

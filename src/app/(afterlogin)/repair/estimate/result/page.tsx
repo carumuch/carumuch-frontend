@@ -119,7 +119,7 @@ export default function EstimateResultPage() {
             colorScheme="blue"
             size="lg"
             w="100%"
-            onClick={() => console.log('견적 등록 버튼 클릭됨')}
+            onClick={() => alert('견적이 등록되었습니다.')}
           >
             견적 등록
           </Button>
