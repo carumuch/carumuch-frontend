@@ -1,13 +1,15 @@
-// /community/page.tsx
+// app/(afterlogin)/community/page.tsx
 'use client';
 
-import { Box, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
 import PostPreview from '@/components/community/PostPreview';
 import { fetchBoardPosts } from '@/services/board';
 import { useEffect, useState } from 'react';
 import { useModalContext } from '@/components/modal/ModalContext';
+import { useRouter } from 'next/navigation';
 
 interface PostProps {
   id: number;
@@ -21,6 +23,7 @@ interface PostProps {
 export default function CommunityPage() {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const { openModal } = useModalContext();
+  const router = useRouter();
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -39,15 +42,23 @@ export default function CommunityPage() {
   }, []);
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      bg="gray.800"
-      minH="100vh"
-      // mb={28}
-    >
+    <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
+      {/* 헤더 */}
       <Header title="커뮤니티" />
 
+      {/* 글 작성 버튼 */}
+      <Box w="100%" maxW="400px" p={4} textAlign="center" bg="gray.800" mb={2}>
+        <Button
+          leftIcon={<AddIcon />}
+          colorScheme="blue"
+          variant="solid"
+          onClick={() => router.push('/community/write')}
+        >
+          글 작성하기
+        </Button>
+      </Box>
+
+      {/* 글 목록 */}
       <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={20}>
         <Stack spacing={2}>
           {posts.map((post) => (

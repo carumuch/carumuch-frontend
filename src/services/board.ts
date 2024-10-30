@@ -68,3 +68,18 @@ export const modifyPost = async (
   });
   return response.data;
 };
+
+// 게시글 추가
+export const writePost = async (title: string, content: string) => {
+  try {
+    const response = await axiosInstance.post('/board/write', {
+      boardTitle: title,
+      boardContent: content,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || '게시글 작성 중 오류가 발생했습니다.',
+    );
+  }
+};

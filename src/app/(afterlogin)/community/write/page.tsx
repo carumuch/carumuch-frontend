@@ -1,3 +1,5 @@
+// app/(afterlogin)/community/write/page.tsx
+
 'use client';
 
 import {
@@ -5,28 +7,60 @@ import {
   Button,
   Flex,
   Stack,
-  Text,
   Textarea,
   Input,
+  useToast,
 } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
-import Header from '@/components/header/Header'; // 기존 헤더 사용
+import Header from '@/components/header/Header';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { writePost } from '@/services/board';
 
 export default function WritePage() {
-  const handleSubmit = () => {
-    console.log('글 작성 완료');
-    // 제출 로직 추가
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const router = useRouter();
+  const toast = useToast();
+
+  const handleSubmit = async () => {
+    if (!window.confirm('글을 작성하시겠습니까?')) return;
+
+    try {
+      const response = await writePost(title, content);
+      if (response.success) {
+        toast({
+          title: '글 작성 완료',
+          description: '게시글이 성공적으로 작성되었습니다.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+        router.push('/community');
+      }
+    } catch (error) {
+      toast({
+        title: '오류',
+        description: '글 작성 중 오류가 발생했습니다.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    if (window.confirm('작성을 취소하시겠습니까?')) {
+      router.push('/community');
+    }
   };
 
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
-      {/* 헤더 */}
       <Header title="커뮤니티" />
 
-      {/* 메인 콘텐츠 */}
       <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
         <Stack spacing={6}>
-          {/* 제목 입력 필드 */}
           <Box>
             <Input
               placeholder="제목을 입력하는 곳"
@@ -35,10 +69,11 @@ export default function WritePage() {
               size="lg"
               variant="filled"
               _placeholder={{ color: 'gray.500' }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </Box>
 
-          {/* 내용 입력 필드 */}
           <Box>
             <Textarea
               placeholder="내용을 입력하는 곳"
@@ -48,17 +83,26 @@ export default function WritePage() {
               resize="none"
               variant="filled"
               _placeholder={{ color: 'gray.500' }}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
           </Box>
 
-          {/* 완료 버튼 */}
           <Button colorScheme="blue" size="lg" w="100%" onClick={handleSubmit}>
             완료
+          </Button>
+          <Button
+            colorScheme="red"
+            size="lg"
+            w="100%"
+            onClick={handleCancel}
+            variant="outline"
+          >
+            취소
           </Button>
         </Stack>
       </Box>
 
-      {/* 하단 네비게이션 */}
       <BottomNavBar />
     </Flex>
   );
