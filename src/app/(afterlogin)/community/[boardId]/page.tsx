@@ -123,7 +123,7 @@ export default function PostDetailsPage() {
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
       <Header title="커뮤니티" />
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={20}>
         <Stack spacing={6}>
           <Box>
             <Flex justifyContent="space-between" mb={2}>
@@ -173,7 +173,7 @@ export default function PostDetailsPage() {
           </Box>
 
           {/* 댓글 입력 필드 */}
-          <Box mt={4}>
+          <Box>
             <Flex align="center">
               <Input
                 placeholder="댓글을 입력하세요..."
