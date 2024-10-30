@@ -37,3 +37,21 @@ export const fetchPostDetails = async (boardId: number) => {
     );
   }
 };
+
+// 게시글 삭제
+export const deletePost = async (postId: number): Promise<void> => {
+  try {
+    const response = await axiosInstance.delete(`/board/${postId}/delete`);
+    if (response.status === 200) {
+      console.log(response.data.message); // 성공 메시지 로그
+    }
+  } catch (error: any) {
+    console.error(
+      '글 삭제 오류:',
+      error.response?.data?.message || error.message,
+    );
+    throw new Error(
+      error.response?.data?.message || '글 삭제 중 문제가 발생했습니다.',
+    );
+  }
+};

@@ -17,7 +17,7 @@ import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { fetchPostDetails } from '@/services/board';
+import { fetchPostDetails, deletePost } from '@/services/board';
 import { writeComment, deleteComment, modifyComment } from '@/services/comment';
 import { getUserInfo } from '@/services/users';
 import Comment from '@/components/community/Comment';
@@ -77,7 +77,7 @@ export default function PostDetailsPage() {
   }, [boardId]);
 
   const handleCommentDelete = async (commentId: number) => {
-    if (!window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) return;
+    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) return;
 
     try {
       await deleteComment(commentId);
@@ -90,8 +90,9 @@ export default function PostDetailsPage() {
           ),
         };
       });
+      alert('댓글이 성공적으로 삭제되었습니다.');
     } catch (error) {
-      alert(error.message);
+      alert('댓글 삭제 중 오류가 발생했습니다.');
     }
   };
 
@@ -150,13 +151,25 @@ export default function PostDetailsPage() {
       setEditingCommentId(null);
       setEditingContent('');
     } catch (error) {
-      alert(error.message);
+      alert('댓글 수정 중 오류가 발생했습니다.');
     }
   };
 
   const handleCancelEdit = () => {
     setEditingCommentId(null);
     setEditingContent('');
+  };
+
+  const handleDelete = async () => {
+    if (!confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
+
+    try {
+      await deletePost(Number(boardId));
+      alert('게시글이 성공적으로 삭제되었습니다.');
+      router.push('/community');
+    } catch (error) {
+      alert('게시글 삭제 중 오류가 발생했습니다.');
+    }
   };
 
   if (!post) return <Text>Loading...</Text>;
@@ -176,7 +189,6 @@ export default function PostDetailsPage() {
                   {post.date}
                 </Text>
               </Box>
-              {/* 현재 유저와 작성자 동일 여부 체크 */}
               {post.author === currentUserId && (
                 <Box>
                   <Button
@@ -187,11 +199,7 @@ export default function PostDetailsPage() {
                   >
                     수정
                   </Button>
-                  <Button
-                    size="sm"
-                    colorScheme="red"
-                    onClick={() => alert('삭제하시겠습니까?')}
-                  >
+                  <Button size="sm" colorScheme="red" onClick={handleDelete}>
                     삭제
                   </Button>
                 </Box>
