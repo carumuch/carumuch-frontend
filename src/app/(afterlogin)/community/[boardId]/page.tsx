@@ -1,83 +1,67 @@
+// app/(afterlogin)/community/[boardId]/page.tsx
+
 'use client';
 
-import { Box, Flex, Stack, Text, Divider, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Stack,
+  Text,
+  Divider,
+  Button,
+  Input,
+  IconButton,
+} from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
-import Header from '@/components/header/Header'; // 기존 헤더 사용
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Header from '@/components/header/Header';
+import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { fetchPostDetails } from '@/services/board';
+import { writeComment } from '@/services/comment';
+import Comment from '@/components/community/Comment';
+import { formatDate } from '@/utils/dateUtils';
+import { AddIcon } from '@chakra-ui/icons';
 
-// 댓글 타입 정의
-interface CommentProps {
-  author: string;
-  content: string;
-  date: string;
-}
-
-// 게시글 타입 정의
-interface PostDetailsProps {
+interface PostDetails {
   author: string;
   date: string;
   title: string;
   content: string;
-  comments: CommentProps[];
-}
-
-// 댓글 컴포넌트 분리
-function Comment({ author, content, date }: CommentProps) {
-  return (
-    <Box
-      mb={4}
-      p={4}
-      bg="gray.700"
-      borderRadius="md"
-      borderWidth="1px"
-      borderColor="gray.600"
-    >
-      <Text fontSize="sm" color="gray.400">
-        {author}
-      </Text>
-      <Text fontSize="sm" color="gray.400" mb={2}>
-        {date}
-      </Text>
-      <Text fontSize="md" color="white">
-        {content}
-      </Text>
-    </Box>
-  );
+  comments: { author: string; content: string; date: string }[];
 }
 
 export default function PostDetailsPage() {
   const router = useRouter();
-  const [post] = useState<PostDetailsProps>({
-    author: '차량사고엔차박고',
-    date: '2024-10-10 13:01',
-    title: '차량 덴트 해보신분 계신가요?',
-    content:
-      '셀프덴트라고 아시니요?? 제가 요즘 이용하고 있는 체험단에서 신청해서 선정되어 물건을 받고 사용 후기를 올리려고 합니다.',
-    comments: [
-      {
-        author: '방금사고남',
-        content:
-          '판금과 덴트는 사고를 부분적으로 수리하는 대표적인 방법입니다. ',
-        date: '2024-10-11 14:28',
-      },
-      {
-        author: '팔랑귀',
-        content: '관심있습니다! 어디로 연락할까요?',
-        date: '2024-10-12 16:01',
-      },
-      // {
-      //   author: '사용자 이름3',
-      //   content:
-      //     '댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.댓글 내용입니다.',
-      //   date: '2024-10-10 13:01',
-      // },
-    ],
-  });
+  const { boardId } = useParams();
+  const [post, setPost] = useState<PostDetails | null>(null);
+  const [newComment, setNewComment] = useState<string>(''); // 새로운 댓글 입력 상태
+  const [isSubmitting, setIsSubmitting] = useState(false); // 댓글 작성 중 로딩 상태
+
+  useEffect(() => {
+    const loadPostDetails = async () => {
+      try {
+        const data = await fetchPostDetails(Number(boardId));
+        setPost({
+          author: data.board.createBy,
+          date: formatDate(data.board.createDate),
+          title: data.board.boardTitle,
+          content: data.board.boardContent,
+          comments: data.board.comments.map((comment: any) => ({
+            author: comment.createBy,
+            content: comment.commentContent,
+            date: formatDate(comment.createDate),
+          })),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadPostDetails();
+  }, [boardId]);
 
   const handleEdit = () => {
-    router.push(`/community/modify/1`);
-    // 수정 페이지로 이동하는 로직 추가
+    router.push(`/community/modify/${boardId}`);
   };
 
   const handleDelete = () => {
@@ -85,15 +69,42 @@ export default function PostDetailsPage() {
     // 삭제 처리 로직 추가
   };
 
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim()) return; // 빈 댓글 작성 방지
+
+    setIsSubmitting(true);
+    try {
+      const response = await writeComment(Number(boardId), newComment);
+      const newCommentData = {
+        author: '본인', // 실제 작성자의 이름으로 변경 가능
+        content: newComment,
+        date: formatDate(new Date().toISOString()),
+      };
+
+      // 새 댓글을 기존 댓글 목록에 추가
+      setPost((prevPost) => {
+        if (!prevPost) return prevPost;
+        return {
+          ...prevPost,
+          comments: [...prevPost.comments, newCommentData],
+        };
+      });
+
+      setNewComment(''); // 입력 필드 초기화
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!post) return <Text>Loading...</Text>;
+
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
-      {/* 헤더 */}
       <Header title="커뮤니티" />
-
-      {/* 메인 콘텐츠 */}
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={20}>
         <Stack spacing={6}>
-          {/* 게시글 정보 */}
           <Box>
             <Flex justifyContent="space-between" mb={2}>
               <Box>
@@ -104,8 +115,6 @@ export default function PostDetailsPage() {
                   {post.date}
                 </Text>
               </Box>
-
-              {/* 수정, 삭제 버튼 */}
               <Box>
                 <Button
                   size="sm"
@@ -120,7 +129,6 @@ export default function PostDetailsPage() {
                 </Button>
               </Box>
             </Flex>
-
             <Text fontSize="2xl" fontWeight="bold" color="white" mb={4}>
               {post.title}
             </Text>
@@ -128,13 +136,10 @@ export default function PostDetailsPage() {
               {post.content}
             </Text>
           </Box>
-
           <Divider borderColor="gray.600" />
-
-          {/* 댓글 섹션 */}
           <Box>
             <Text fontSize="lg" fontWeight="bold" color="white" mb={4}>
-              댓글 2개
+              댓글 {post.comments.length}개
             </Text>
             {post.comments.map((comment, index) => (
               <Comment
@@ -145,10 +150,29 @@ export default function PostDetailsPage() {
               />
             ))}
           </Box>
+
+          {/* 댓글 입력 필드 */}
+          <Box>
+            <Flex align="center">
+              <Input
+                placeholder="댓글을 입력하세요..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                bg="gray.700"
+                color="white"
+                mr={2}
+              />
+              <IconButton
+                icon={<AddIcon />}
+                colorScheme="blue"
+                onClick={handleCommentSubmit}
+                isLoading={isSubmitting}
+                aria-label="댓글 작성"
+              />
+            </Flex>
+          </Box>
         </Stack>
       </Box>
-
-      {/* 하단 네비게이션 */}
       <BottomNavBar />
     </Flex>
   );
