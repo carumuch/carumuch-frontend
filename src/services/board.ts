@@ -55,3 +55,16 @@ export const deletePost = async (postId: number): Promise<void> => {
     );
   }
 };
+
+// 게시글 수정
+export const modifyPost = async (
+  boardId: number,
+  title: string,
+  content: string,
+) => {
+  const response = await axiosInstance.put(`/board/${boardId}/modify`, {
+    boardTitle: title,
+    boardContent: content,
+  });
+  return response.data;
+};

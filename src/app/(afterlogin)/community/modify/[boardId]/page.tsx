@@ -1,3 +1,5 @@
+// app/(afterlogin)/modify/[boardId]/page.tsx
+
 'use client';
 
 import {
@@ -5,13 +7,16 @@ import {
   Button,
   Flex,
   Stack,
-  Text,
   Textarea,
   Input,
+  useToast,
 } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
-import Header from '@/components/header/Header'; // 기존 헤더 사용
-import { useRouter } from 'next/navigation'; // useRouter 훅 사용
+import Header from '@/components/header/Header';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { fetchPostDetails, modifyPost } from '@/services/board';
+import { useParams } from 'next/navigation';
 
 export default function ModifyPage({
   params,
@@ -19,25 +24,80 @@ export default function ModifyPage({
   params: { boardId: string };
 }) {
   const router = useRouter();
+  const { boardId } = useParams();
+  const toast = useToast();
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    console.log(`게시글 ${params.boardId} 수정 완료`);
-    // 수정 로직 추가 후 수정이 완료되면 다시 게시글 상세 페이지로 이동
-    router.push(`/community/${params.boardId}`);
+  useEffect(() => {
+    const loadPostDetails = async () => {
+      try {
+        const data = await fetchPostDetails(Number(boardId));
+        setTitle(data.board.boardTitle);
+        setContent(data.board.boardContent);
+      } catch (error) {
+        toast({
+          title: '오류 발생',
+          description: '게시글을 불러오는 중 오류가 발생했습니다.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    };
+
+    loadPostDetails();
+  }, [boardId, toast]);
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !content.trim()) {
+      toast({
+        title: '제목과 내용을 입력해주세요.',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await modifyPost(Number(boardId), title, content);
+      toast({
+        title: '수정 완료',
+        description: '게시글이 성공적으로 수정되었습니다.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      router.push(`/community/${boardId}`);
+    } catch (error) {
+      toast({
+        title: '오류 발생',
+        description: '게시글 수정 중 오류가 발생했습니다.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancel = () => {
+    router.push(`/community/${boardId}`);
   };
 
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
-      {/* 헤더 */}
       <Header title="커뮤니티" />
-
-      {/* 메인 콘텐츠 */}
       <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
         <Stack spacing={6}>
-          {/* 제목 수정 필드 */}
           <Box>
             <Input
-              value="차량 덴트 해보신분 계신가요?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="제목 수정"
               bg="gray.700"
               color="white"
@@ -47,11 +107,10 @@ export default function ModifyPage({
               _hover={{}}
             />
           </Box>
-
-          {/* 내용 수정 필드 */}
           <Box>
             <Textarea
-              value="셀프덴트라고 아시니요?? 제가 요즘 이용하고 있는 체험단에서 신청해서 선정되어 물건을 받고 사용 후기를 올리려고 합니다."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               placeholder="내용 수정"
               bg="gray.700"
               color="white"
@@ -62,15 +121,20 @@ export default function ModifyPage({
               _hover={{}}
             />
           </Box>
-
-          {/* 수정 완료 버튼 */}
-          <Button colorScheme="blue" size="lg" w="100%" onClick={handleSubmit}>
+          <Button
+            colorScheme="blue"
+            size="lg"
+            w="100%"
+            onClick={handleSubmit}
+            isLoading={isSubmitting}
+          >
             수정
+          </Button>
+          <Button colorScheme="red" size="lg" w="100%" onClick={handleCancel}>
+            취소
           </Button>
         </Stack>
       </Box>
-
-      {/* 하단 네비게이션 */}
       <BottomNavBar />
     </Flex>
   );
