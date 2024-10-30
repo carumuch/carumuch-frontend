@@ -15,3 +15,19 @@ export const writeComment = async (boardId: number, commentContent: string) => {
     );
   }
 };
+
+// 댓글 삭제
+export const deleteComment = async (commentId: number) => {
+  try {
+    const response = await axiosInstance.delete(`/comment/${commentId}/delete`);
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      'Delete comment error:',
+      error.response?.data || error.message,
+    );
+    throw new Error(
+      error.response?.data?.message || '댓글 삭제 중 문제가 발생했습니다.',
+    );
+  }
+};

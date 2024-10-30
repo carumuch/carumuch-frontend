@@ -1,14 +1,21 @@
-// src/components/community/Comment.tsx
-
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, IconButton } from '@chakra-ui/react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface CommentProps {
   author: string;
   content: string;
   date: string;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export default function Comment({ author, content, date }: CommentProps) {
+export default function Comment({
+  author,
+  content,
+  date,
+  onEdit,
+  onDelete,
+}: CommentProps) {
   return (
     <Box
       mb={4}
@@ -18,12 +25,33 @@ export default function Comment({ author, content, date }: CommentProps) {
       borderWidth="1px"
       borderColor="gray.600"
     >
-      <Text fontSize="sm" color="gray.400">
-        {author}
-      </Text>
-      <Text fontSize="sm" color="gray.400" mb={2}>
-        {date}
-      </Text>
+      <Flex justify="space-between" align="center">
+        <Box>
+          <Text fontSize="sm" color="gray.400">
+            {author}
+          </Text>
+          <Text fontSize="sm" color="gray.400" mb={2}>
+            {date}
+          </Text>
+        </Box>
+        <Flex>
+          <IconButton
+            icon={<FaEdit />}
+            aria-label="Edit Comment"
+            size="sm"
+            colorScheme="blue"
+            onClick={onEdit}
+            mr={2}
+          />
+          <IconButton
+            icon={<FaTrash />}
+            aria-label="Delete Comment"
+            size="sm"
+            colorScheme="red"
+            onClick={onDelete}
+          />
+        </Flex>
+      </Flex>
       <Text fontSize="md" color="white">
         {content}
       </Text>

@@ -17,7 +17,7 @@ import Header from '@/components/header/Header';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchPostDetails } from '@/services/board';
-import { writeComment } from '@/services/comment';
+import { writeComment, deleteComment } from '@/services/comment';
 import Comment from '@/components/community/Comment';
 import { formatDate } from '@/utils/dateUtils';
 import { AddIcon } from '@chakra-ui/icons';
@@ -27,15 +27,15 @@ interface PostDetails {
   date: string;
   title: string;
   content: string;
-  comments: { author: string; content: string; date: string }[];
+  comments: { id: number; author: string; content: string; date: string }[];
 }
 
 export default function PostDetailsPage() {
   const router = useRouter();
   const { boardId } = useParams();
   const [post, setPost] = useState<PostDetails | null>(null);
-  const [newComment, setNewComment] = useState<string>(''); // 새로운 댓글 입력 상태
-  const [isSubmitting, setIsSubmitting] = useState(false); // 댓글 작성 중 로딩 상태
+  const [newComment, setNewComment] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadPostDetails = async () => {
@@ -47,6 +47,7 @@ export default function PostDetailsPage() {
           title: data.board.boardTitle,
           content: data.board.boardContent,
           comments: data.board.comments.map((comment: any) => ({
+            id: comment.id,
             author: comment.createBy,
             content: comment.commentContent,
             date: formatDate(comment.createDate),
@@ -69,19 +70,38 @@ export default function PostDetailsPage() {
     // 삭제 처리 로직 추가
   };
 
+  const handleCommentDelete = async (commentId: number) => {
+    if (!window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) return;
+
+    try {
+      await deleteComment(commentId);
+      setPost((prevPost) => {
+        if (!prevPost) return prevPost;
+        return {
+          ...prevPost,
+          comments: prevPost.comments.filter(
+            (comment) => comment.id !== commentId,
+          ),
+        };
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const handleCommentSubmit = async () => {
-    if (!newComment.trim()) return; // 빈 댓글 작성 방지
+    if (!newComment.trim()) return;
 
     setIsSubmitting(true);
     try {
       const response = await writeComment(Number(boardId), newComment);
       const newCommentData = {
-        author: '본인', // 실제 작성자의 이름으로 변경 가능
+        id: response.response, // 새로운 댓글의 ID
+        author: '본인',
         content: newComment,
         date: formatDate(new Date().toISOString()),
       };
 
-      // 새 댓글을 기존 댓글 목록에 추가
       setPost((prevPost) => {
         if (!prevPost) return prevPost;
         return {
@@ -90,7 +110,7 @@ export default function PostDetailsPage() {
         };
       });
 
-      setNewComment(''); // 입력 필드 초기화
+      setNewComment('');
     } catch (error) {
       console.error(error);
     } finally {
@@ -103,7 +123,7 @@ export default function PostDetailsPage() {
   return (
     <Flex direction="column" alignItems="center" bg="gray.800" minH="100vh">
       <Header title="커뮤니티" />
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={20}>
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
         <Stack spacing={6}>
           <Box>
             <Flex justifyContent="space-between" mb={2}>
@@ -141,18 +161,19 @@ export default function PostDetailsPage() {
             <Text fontSize="lg" fontWeight="bold" color="white" mb={4}>
               댓글 {post.comments.length}개
             </Text>
-            {post.comments.map((comment, index) => (
+            {post.comments.map((comment) => (
               <Comment
-                key={index}
+                key={comment.id}
                 author={comment.author}
                 content={comment.content}
                 date={comment.date}
+                onDelete={() => handleCommentDelete(comment.id)} // 댓글 삭제 핸들러
               />
             ))}
           </Box>
 
           {/* 댓글 입력 필드 */}
-          <Box>
+          <Box mt={4}>
             <Flex align="center">
               <Input
                 placeholder="댓글을 입력하세요..."
