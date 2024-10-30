@@ -31,3 +31,24 @@ export const deleteComment = async (commentId: number) => {
     );
   }
 };
+
+// 댓글 수정
+export const modifyComment = async (commentId: number, newContent: string) => {
+  try {
+    const response = await axiosInstance.put(`/comment/${commentId}/modify`, {
+      commentContent: newContent,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      throw new Error('댓글 수정 권한이 없습니다.');
+    } else {
+      throw new Error(
+        error.response?.data?.message || '댓글 수정 중 문제가 발생했습니다.',
+      );
+    }
+  }
+};
