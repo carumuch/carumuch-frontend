@@ -58,3 +58,8 @@ export default function Comment({
     </Box>
   );
 }
+
+Comment.defaultProps = {
+  onEdit: undefined,
+  onDelete: undefined,
+};

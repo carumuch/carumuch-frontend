@@ -2,7 +2,7 @@
 import { Box, Text, HStack, Icon } from '@chakra-ui/react';
 import { ChatIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
-import { formatDate } from '@/utils/dateUtils';
+import formatDate from '@/utils/dateUtils';
 
 interface PostPreviewProps {
   id: number;

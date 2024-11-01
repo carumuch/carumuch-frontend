@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import Providers from './providers';
 import { ModalProvider } from '@/components/modal/ModalContext';
 import CustomModal from '@/components/modal/CustomModal';
-import { GlobalLoadingSpinner } from '@/components/GlobalLoadingSpinner/GlobalLoadingSpinner';
+import GlobalLoadingSpinner from '@/components/GlobalLoadingSpinner/GlobalLoadingSpinner';
+import Providers from './providers';
 import '../styles/globals.scss';
 
 const pretendard = localFont({

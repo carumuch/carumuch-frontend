@@ -1,7 +1,7 @@
 import axiosInstance from '@/utils/axiosInstance';
 
 // 유저 정보 가져오기
-export const getUserInfo = async () => {
+const getUserInfo = async () => {
   try {
     const response = await axiosInstance.get('/users');
     return response.data;
@@ -15,3 +15,5 @@ export const getUserInfo = async () => {
     );
   }
 };
+
+export default getUserInfo;

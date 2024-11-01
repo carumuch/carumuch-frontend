@@ -1,18 +1,27 @@
 'use client';
 
 import React from 'react';
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
-import { useModalContext } from './ModalContext';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import { useModalContext } from './ModalContext';
 
-const CustomModal: React.FC = () => {
-  const { isOpen, modalMessage, modalTitle, isSignupSuccess, closeModal } = useModalContext();
+function CustomModal() {
+  const { isOpen, modalMessage, modalTitle, isSignupSuccess, closeModal } =
+    useModalContext();
   const router = useRouter();
 
   const handleCloseModal = () => {
     closeModal();
     if (isSignupSuccess) {
-      router.push('/login');  // 회원가입 성공 시 /login 페이지로 이동
+      router.push('/login'); // 회원가입 성공 시 /login 페이지로 이동
     }
   };
 
@@ -28,6 +37,6 @@ const CustomModal: React.FC = () => {
       </ModalContent>
     </Modal>
   );
-};
+}
 
 export default CustomModal;

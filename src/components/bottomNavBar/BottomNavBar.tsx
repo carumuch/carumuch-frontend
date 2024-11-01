@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
-import { AtSignIcon, InfoOutlineIcon, ChatIcon } from '@chakra-ui/icons';
+import { InfoOutlineIcon, ChatIcon } from '@chakra-ui/icons';
 import { FaCarAlt, FaHome, FaEnvelopeOpenText } from 'react-icons/fa';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -38,54 +38,52 @@ function BottomNavBar() {
   };
 
   return (
-    <>
-      <Flex
-        as="nav"
-        position="fixed"
-        bottom="0"
-        width="100%"
-        maxW="400px"
-        bg="white"
-        borderTop="1px solid"
-        borderColor="gray.200"
-        justifyContent="space-around"
-        alignItems="center"
-        paddingY={2}
-        zIndex="1000"
-        mx="auto"
-      >
-        <NavItem
-          icon={FaHome}
-          label="메인"
-          isSelected={pathname.startsWith('/main')}
-          onClick={() => handleSelect('/main')}
-        />
-        <NavItem
-          icon={FaCarAlt}
-          label="수리입찰"
-          isSelected={pathname.startsWith('/repair')}
-          onClick={() => handleSelect('/repair')}
-        />
-        <NavItem
-          icon={ChatIcon}
-          label="커뮤니티"
-          isSelected={pathname.startsWith('/community')}
-          onClick={() => handleSelect('/community')}
-        />
-        <NavItem
-          icon={FaEnvelopeOpenText}
-          label="입찰관리"
-          isSelected={pathname === '/bid'}
-          onClick={() => handleSelect('/bid')}
-        />
-        <NavItem
-          icon={InfoOutlineIcon}
-          label="내 정보"
-          isSelected={pathname.startsWith('/profile')}
-          onClick={() => handleSelect('/profile')}
-        />
-      </Flex>
-    </>
+    <Flex
+      as="nav"
+      position="fixed"
+      bottom="0"
+      width="100%"
+      maxW="400px"
+      bg="white"
+      borderTop="1px solid"
+      borderColor="gray.200"
+      justifyContent="space-around"
+      alignItems="center"
+      paddingY={2}
+      zIndex="1000"
+      mx="auto"
+    >
+      <NavItem
+        icon={FaHome}
+        label="메인"
+        isSelected={pathname.startsWith('/main')}
+        onClick={() => handleSelect('/main')}
+      />
+      <NavItem
+        icon={FaCarAlt}
+        label="수리입찰"
+        isSelected={pathname.startsWith('/repair')}
+        onClick={() => handleSelect('/repair')}
+      />
+      <NavItem
+        icon={ChatIcon}
+        label="커뮤니티"
+        isSelected={pathname.startsWith('/community')}
+        onClick={() => handleSelect('/community')}
+      />
+      <NavItem
+        icon={FaEnvelopeOpenText}
+        label="입찰관리"
+        isSelected={pathname === '/bid'}
+        onClick={() => handleSelect('/bid')}
+      />
+      <NavItem
+        icon={InfoOutlineIcon}
+        label="내 정보"
+        isSelected={pathname.startsWith('/profile')}
+        onClick={() => handleSelect('/profile')}
+      />
+    </Flex>
   );
 }
 

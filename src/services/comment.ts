@@ -42,6 +42,7 @@ export const modifyComment = async (commentId: number, newContent: string) => {
     if (response.status === 200) {
       return response.data;
     }
+    return null; // 추가: 200이 아닐 때 기본 반환값 추가
   } catch (error: any) {
     if (error.response?.status === 401) {
       throw new Error('댓글 수정 권한이 없습니다.');

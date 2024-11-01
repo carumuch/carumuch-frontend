@@ -1,7 +1,7 @@
 import axiosInstance from '@/utils/axiosInstance';
 
 // 차량 견적 등록 API
-export const registerVehicleEstimate = async (
+const registerVehicleEstimate = async (
   vehicleId: number,
   estimateData: {
     imagePath: string;
@@ -20,11 +20,10 @@ export const registerVehicleEstimate = async (
     console.log(response);
     if (response.data.success) {
       return response.data; // 성공 시 응답 데이터 반환
-    } else {
-      throw new Error(
-        response.data.message || '차량 견적 등록 중 문제가 발생했습니다.',
-      );
     }
+    throw new Error(
+      response.data.message || '차량 견적 등록 중 문제가 발생했습니다.',
+    );
   } catch (error: any) {
     if (error.response) {
       const errorMessage =
@@ -35,3 +34,5 @@ export const registerVehicleEstimate = async (
     }
   }
 };
+
+export default registerVehicleEstimate;

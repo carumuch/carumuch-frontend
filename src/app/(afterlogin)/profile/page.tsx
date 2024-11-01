@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Stack, Text, Divider, HStack } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { ChevronRightIcon } from '@chakra-ui/icons';
@@ -133,7 +133,7 @@ export default function MyPage() {
               </Text>
               <ChevronRightIcon boxSize={6} color="gray.400" />
             </Flex>
-            <Link href={'/profile/addVehicle'}>
+            <Link href="/profile/addVehicle">
               <Flex
                 justifyContent="space-between"
                 alignItems="center"

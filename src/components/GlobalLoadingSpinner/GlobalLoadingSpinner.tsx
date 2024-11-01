@@ -1,9 +1,9 @@
 'use client';
 
 import { Center, Spinner } from '@chakra-ui/react';
-import { useLoadingStore } from '@/stores/useLoadingStore';
+import useLoadingStore from '@/stores/useLoadingStore';
 
-export const GlobalLoadingSpinner = () => {
+function GlobalLoadingSpinner() {
   const isLoading = useLoadingStore((state) => state.isLoading); // Zustand로 로딩 상태 추적
 
   return isLoading ? (
@@ -19,4 +19,6 @@ export const GlobalLoadingSpinner = () => {
       <Spinner size="xl" color="white" />
     </Center>
   ) : null;
-};
+}
+
+export default GlobalLoadingSpinner;

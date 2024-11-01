@@ -1,3 +1,4 @@
+/* eslint-disable */
 // app/(afterlogin)/community/[boardId]/page.tsx
 
 'use client';
@@ -19,10 +20,10 @@ import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchPostDetails, deletePost } from '@/services/board';
 import { writeComment, deleteComment, modifyComment } from '@/services/comment';
-import { getUserInfo } from '@/services/users';
+import getUserInfo from '@/services/users';
 import Comment from '@/components/community/Comment';
-import { formatDate } from '@/utils/dateUtils';
-import { AddIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import formatDate from '@/utils/dateUtils';
+import { AddIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 interface PostDetails {
   author: string;

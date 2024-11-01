@@ -14,12 +14,13 @@ const axiosInstance = axios.create({
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
   (config) => {
+    const updatedConfig = { ...config }; // config 복사
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      updatedConfig.headers.Authorization = `Bearer ${token}`;
     }
 
-    return config;
+    return updatedConfig; // 수정된 config 반환
   },
   (error) => Promise.reject(error),
 );
