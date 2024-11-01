@@ -5,7 +5,7 @@ export interface LoginCredentials {
 
 export interface LoginResponse {
   token: string;
-  refreshToken: string;
+  refreshToken?: string;
 }
 
 // 회원 가입 데이터
