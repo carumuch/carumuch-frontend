@@ -1,7 +1,7 @@
 import axiosInstance from '@/utils/axiosInstance';
 
 // 차량 견적 등록 API
-export const registerVehicleEstimate = async (
+const registerVehicleEstimate = async (
   vehicleId: number,
   estimateData: {
     imagePath: string;
@@ -34,3 +34,5 @@ export const registerVehicleEstimate = async (
     }
   }
 };
+
+export default registerVehicleEstimate;
