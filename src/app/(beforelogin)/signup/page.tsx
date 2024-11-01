@@ -97,7 +97,7 @@ export default function SignupPage() {
 
     setIsLoading(true); // 로딩 상태 시작
     try {
-      const response = await signup(signupData); // Axios를 통한 회원가입 요청
+      await signup(signupData); // Axios를 통한 회원가입 요청
       setIsLoading(false);
       setIsSignupSuccess(true); // 회원가입 성공 시 상태 설정
 
