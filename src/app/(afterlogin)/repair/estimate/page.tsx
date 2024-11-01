@@ -14,8 +14,8 @@ import {
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
 import { useModalContext } from '@/components/modal/ModalContext';
-import { uploadImage } from '@/services/image';
-import { registerVehicleEstimate } from '@/services/estimate'; // AI 견적 API 추가
+import uploadImage from '@/services/image';
+import registerVehicleEstimate from '@/services/estimate'; // AI 견적 API 추가
 import { useRouter } from 'next/navigation';
 
 export default function RepairEstimatePage() {

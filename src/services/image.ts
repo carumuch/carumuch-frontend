@@ -1,7 +1,7 @@
 import axiosInstance from '@/utils/axiosInstance';
 
 // 이미지 업로드 API 호출 함수
-export const uploadImage = async (image: File): Promise<string> => {
+const uploadImage = async (image: File): Promise<string> => {
   const formData = new FormData();
   formData.append('image', image);
 
@@ -24,3 +24,5 @@ export const uploadImage = async (image: File): Promise<string> => {
     );
   }
 };
+
+export default uploadImage;

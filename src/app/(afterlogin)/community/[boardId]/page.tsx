@@ -20,7 +20,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchPostDetails, deletePost } from '@/services/board';
 import { writeComment, deleteComment, modifyComment } from '@/services/comment';
-import { getUserInfo } from '@/services/users';
+import getUserInfo from '@/services/users';
 import Comment from '@/components/community/Comment';
 import formatDate from '@/utils/dateUtils';
 import { AddIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';

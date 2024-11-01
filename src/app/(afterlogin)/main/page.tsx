@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Stack,
-  Text,
-  HStack,
-  Divider,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider, VStack } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
 import { ArrowForwardIcon, InfoOutlineIcon } from '@chakra-ui/icons';
@@ -171,8 +162,8 @@ export default function Main() {
             </Flex>
             <Divider borderColor="gray.600" mb={2} />
             <VStack align="stretch" spacing={2}>
-              {recentPosts.map((post, index) => (
-                <Text key={index} fontSize="md" color="white">
+              {recentPosts.map((post) => (
+                <Text key={0} fontSize="md" color="white">
                   • {post}
                 </Text>
               ))}

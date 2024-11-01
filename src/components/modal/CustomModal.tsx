@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useModalContext } from './ModalContext';
 
-const CustomModal: React.FC = () => {
+function CustomModal() {
   const { isOpen, modalMessage, modalTitle, isSignupSuccess, closeModal } =
     useModalContext();
   const router = useRouter();
@@ -37,6 +37,6 @@ const CustomModal: React.FC = () => {
       </ModalContent>
     </Modal>
   );
-};
+}
 
 export default CustomModal;
