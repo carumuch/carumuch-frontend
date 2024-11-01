@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { AtSignIcon, LockIcon, EmailIcon, InfoIcon } from '@chakra-ui/icons';
 import { useModalContext } from '@/components/modal/ModalContext';
-import { SignupData } from '@/types/d.ts';
+import { SignupData } from '@/types/d';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {

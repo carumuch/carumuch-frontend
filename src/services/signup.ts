@@ -1,5 +1,5 @@
 import axiosInstance from '@/utils/axiosInstance';
-import { SignupData } from '@/types/d.ts';
+import { SignupData } from '@/types/d';
 
 const signup = async (data: SignupData) => {
   try {
