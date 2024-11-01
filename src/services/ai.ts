@@ -4,7 +4,7 @@ import axiosInstance from '@/utils/axiosInstance';
 export const classify = async (data: { manufacturer: string; url: string }) => {
   try {
     const response = await axiosInstance.post(
-      'http://localhost:5000/classify',
+      `${process.env.NEXT_PUBLIC_AI_SERVER}/classify`,
       data,
     );
     if (response.data) {

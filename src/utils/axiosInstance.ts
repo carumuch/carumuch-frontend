@@ -3,7 +3,7 @@ import { useModalContext } from '@/components/modal/ModalContext';
 import { useRouter } from 'next/navigation';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080', // 예시로 기본 URL을 설정합니다.
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_SERVER, // 예시로 기본 URL을 설정합니다.
   timeout: 10000,
   withCredentials: true, // 쿠키 및 인증 정보를 포함하는 설정
   headers: {
