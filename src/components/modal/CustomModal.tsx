@@ -10,8 +10,8 @@ import {
   ModalFooter,
   Button,
 } from '@chakra-ui/react';
-import { useModalContext } from './ModalContext';
 import { useRouter } from 'next/navigation';
+import { useModalContext } from './ModalContext';
 
 const CustomModal: React.FC = () => {
   const { isOpen, modalMessage, modalTitle, isSignupSuccess, closeModal } =

@@ -1,4 +1,5 @@
 // app/(afterlogin)/community/page.tsx
+
 'use client';
 
 import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';

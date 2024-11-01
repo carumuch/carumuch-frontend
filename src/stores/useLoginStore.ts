@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import axiosInstance from '../utils/axiosInstance';
 import { LoginCredentials, LoginResponse, LoginState } from '@/types/d';
+import axiosInstance from '../utils/axiosInstance';
 
 export const useLoginStore = create<LoginState>((set) => ({
   token: null,
@@ -18,7 +18,7 @@ export const useLoginStore = create<LoginState>((set) => ({
       );
 
       // JWT 토큰을 Authorization 헤더에서 추출
-      const authorizationHeader = response.headers['authorization'];
+      const authorizationHeader = response.headers.authorization;
       const refreshToken = response.headers['set-cookie']?.[0]?.split('=')[1];
 
       if (authorizationHeader) {

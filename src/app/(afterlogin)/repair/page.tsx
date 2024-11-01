@@ -3,9 +3,10 @@
 import { Box, Button, Flex, Image, Stack, Text } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header'; // 기존 헤더 사용
-import helpImg1 from '/public/images/help_img_1.jpg'; // 첫 번째 예시 이미지
-import helpImg2 from '/public/images/help_img_2.jpg'; // 두 번째 예시 이미지
 import Link from 'next/link';
+// import helpImg1 from '../../../public/images/help_img_1.jpg'; // 첫 번째 예시 이미지
+// import helpImg2 from '../../../public/images/help_img_2.jpg'; // 두 번째 예시 이미지
+import { imagePaths } from '@/styles/images';
 
 export default function RepairPage() {
   return (
@@ -47,10 +48,11 @@ export default function RepairPage() {
             </Text>
             <Box mt={4}>
               <Image
-                src={helpImg1.src}
+                // src={helpImg1.src}
+                src={imagePaths.helpImg1}
                 alt="예시 사진 1"
-                width={helpImg1.width}
-                height={helpImg1.height}
+                // width={helpImg1.width}
+                // height={helpImg1.height}
                 rounded="md"
               />
             </Box>
@@ -66,10 +68,11 @@ export default function RepairPage() {
             </Text>
             <Box mt={4}>
               <Image
-                src={helpImg2.src}
+                // src={helpImg2.src}
+                src={imagePaths.helpImg2}
                 alt="예시 사진 2"
-                width={helpImg2.width}
-                height={helpImg2.height}
+                // width={helpImg2.width}
+                // height={helpImg2.height}
                 rounded="md"
               />
               {/* 사진 첨부하기 버튼 */}

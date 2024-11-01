@@ -22,7 +22,7 @@ import { writeComment, deleteComment, modifyComment } from '@/services/comment';
 import { getUserInfo } from '@/services/users';
 import Comment from '@/components/community/Comment';
 import { formatDate } from '@/utils/dateUtils';
-import { AddIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { AddIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
 
 interface PostDetails {
   author: string;

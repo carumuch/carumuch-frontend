@@ -15,10 +15,9 @@ export const uploadImage = async (image: File): Promise<string> => {
     if (response.data.success) {
       console.log(response.data);
       return response.data.response; // 업로드된 이미지 URL 반환
-    } else {
-      console.log(response.data);
-      throw new Error(response.data.message || '이미지 업로드 실패');
     }
+    console.log(response.data);
+    throw new Error(response.data.message || '이미지 업로드 실패');
   } catch (error: any) {
     throw new Error(
       error.response?.data?.message || '이미지 업로드 중 문제가 발생했습니다.',

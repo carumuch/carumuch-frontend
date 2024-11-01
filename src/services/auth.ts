@@ -10,7 +10,7 @@ export const login = async (
       credentials,
     );
 
-    const authorizationHeader = response.headers['authorization'];
+    const authorizationHeader = response.headers.authorization;
     const refreshToken = response.headers['set-cookie']?.[0]?.split('=')[1];
 
     if (authorizationHeader) {
@@ -21,9 +21,8 @@ export const login = async (
       }
 
       return { token, refreshToken };
-    } else {
-      throw new Error('로그인 중 문제가 발생했습니다.');
     }
+    throw new Error('로그인 중 문제가 발생했습니다.');
   } catch (error: any) {
     console.error('Login error:', error.response?.data || error.message);
     throw new Error(

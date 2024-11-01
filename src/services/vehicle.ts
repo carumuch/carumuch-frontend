@@ -7,11 +7,10 @@ export const getVehicleInfo = async () => {
 
     if (response.data.success) {
       return response.data.response; // 차량 정보 반환
-    } else {
-      throw new Error(
-        response.data.message || '차량 정보를 불러오는 중 문제가 발생했습니다.',
-      );
     }
+    throw new Error(
+      response.data.message || '차량 정보를 불러오는 중 문제가 발생했습니다.',
+    );
   } catch (error: any) {
     if (error.response) {
       const errorMessage =
@@ -37,11 +36,10 @@ export const registerVehicle = async (vehicleData: {
 
     if (response.data.success) {
       return response.data; // 성공 시 응답 데이터 반환
-    } else {
-      throw new Error(
-        response.data.message || '차량 등록 중 문제가 발생했습니다.',
-      );
     }
+    throw new Error(
+      response.data.message || '차량 등록 중 문제가 발생했습니다.',
+    );
   } catch (error: any) {
     if (error.response) {
       // 서버에서 받은 응답이 있는 경우 에러 처리

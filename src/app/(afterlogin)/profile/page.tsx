@@ -133,7 +133,7 @@ export default function MyPage() {
               </Text>
               <ChevronRightIcon boxSize={6} color="gray.400" />
             </Flex>
-            <Link href={'/profile/addVehicle'}>
+            <Link href="/profile/addVehicle">
               <Flex
                 justifyContent="space-between"
                 alignItems="center"

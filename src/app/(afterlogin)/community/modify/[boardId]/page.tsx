@@ -13,10 +13,9 @@ import {
 } from '@chakra-ui/react';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { fetchPostDetails, modifyPost } from '@/services/board';
-import { useParams } from 'next/navigation';
 
 export default function ModifyPage({
   params,
