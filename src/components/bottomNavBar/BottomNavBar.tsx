@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
-import { AtSignIcon, InfoOutlineIcon, ChatIcon } from '@chakra-ui/icons';
+import { InfoOutlineIcon, ChatIcon } from '@chakra-ui/icons';
 import { FaCarAlt, FaHome, FaEnvelopeOpenText } from 'react-icons/fa';
 import { useRouter, usePathname } from 'next/navigation';
 

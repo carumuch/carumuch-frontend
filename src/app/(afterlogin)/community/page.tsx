@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Box, Flex, Stack, Text, Button } from '@chakra-ui/react';
+import { Box, Flex, Stack, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import BottomNavBar from '@/components/bottomNavBar/BottomNavBar';
 import Header from '@/components/header/Header';
