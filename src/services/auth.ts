@@ -1,9 +1,7 @@
 import axiosInstance from '@/utils/axiosInstance';
 import { LoginCredentials, LoginResponse } from '../types/d';
 
-export const login = async (
-  credentials: LoginCredentials,
-): Promise<LoginResponse> => {
+const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
   try {
     const response = await axiosInstance.post<LoginResponse>(
       '/login',
@@ -30,3 +28,5 @@ export const login = async (
     );
   }
 };
+
+export default login;

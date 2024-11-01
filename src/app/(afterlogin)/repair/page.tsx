@@ -6,7 +6,7 @@ import Header from '@/components/header/Header'; // 기존 헤더 사용
 import Link from 'next/link';
 // import helpImg1 from '../../../public/images/help_img_1.jpg'; // 첫 번째 예시 이미지
 // import helpImg2 from '../../../public/images/help_img_2.jpg'; // 두 번째 예시 이미지
-import { imagePaths } from '@/styles/images';
+import imagePaths from '@/styles/images';
 
 export default function RepairPage() {
   return (
