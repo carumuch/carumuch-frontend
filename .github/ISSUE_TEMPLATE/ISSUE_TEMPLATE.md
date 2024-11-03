@@ -16,5 +16,5 @@ assignees: ''
 - [주소에 대한 설명](http://www.google.co.kr)
 - [팀원이 이슈를 대략적으로 파악 가능한 링크](http://www.google.co.kr)
 
-- [주소에 대한 설명] (http://www.google.co.kr)
-- [팀원이 이슈를 대략적으로 파악 가능한 링크] (http://www.google.co.kr)
+- [주소에 대한 설명](http://www.google.co.kr)
+- [팀원이 이슈를 대략적으로 파악 가능한 링크](http://www.google.co.kr)
