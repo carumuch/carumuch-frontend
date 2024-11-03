@@ -69,7 +69,7 @@ export default function VehicleRegisterPage() {
       <Header title="차량 등록" />
 
       {/* 메인 콘텐츠 */}
-      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800">
+      <Box w="100%" maxW="400px" p={4} rounded="md" bg="gray.800" mb={24}>
         <Stack spacing={6}>
           {/* 차량 번호 입력 */}
           <Box>
