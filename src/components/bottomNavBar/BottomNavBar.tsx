@@ -75,7 +75,7 @@ function BottomNavBar() {
         icon={FaEnvelopeOpenText}
         label="입찰관리"
         isSelected={pathname === '/bid'}
-        onClick={() => handleSelect('/bid')}
+        // onClick={() => handleSelect('/bid')}
       />
       <NavItem
         icon={InfoOutlineIcon}
