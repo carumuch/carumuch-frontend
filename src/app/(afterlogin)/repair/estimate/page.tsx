@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -17,21 +17,35 @@ import { useModalContext } from '@/components/modal/ModalContext';
 import uploadImage from '@/services/image';
 import registerVehicleEstimate from '@/services/estimate'; // AI 견적 API 추가
 import { useRouter } from 'next/navigation';
+import { addressMap, expectedBreakageArea } from '@/utils/data';
 
 export default function RepairEstimatePage() {
+  type RegionKey = keyof typeof addressMap;
+
   const { openModal } = useModalContext(); // 공용 모달 사용
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   const [inquiry, setInquiry] = useState(''); // 문의 내용 상태
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState<RegionKey | ''>('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [districtOptions, setDistrictOptions] = useState<string[]>([]);
   const [selectedDamage, setSelectedDamage] = useState('');
   const [selectedRideOption, setSelectedRideOption] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+
+  // 시도가 변경될 때마다 구군 옵션 업데이트
+  useEffect(() => {
+    if (selectedLocation) {
+      setDistrictOptions(addressMap[selectedLocation] || []);
+    } else {
+      setDistrictOptions([]);
+    }
+    setSelectedDistrict('');
+  }, [selectedLocation]);
 
   // 이미지 변경 핸들러
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,12 +195,17 @@ export default function RepairEstimatePage() {
                 color="white"
                 flex="1"
                 value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
+                onChange={(e) =>
+                  setSelectedLocation(e.target.value as RegionKey)
+                }
                 variant="filled"
                 _hover={{}}
               >
-                <option value="서울시">서울시</option>
-                <option value="고양시">고양시</option>
+                {Object.keys(addressMap).map((sido) => (
+                  <option key={sido} value={sido}>
+                    {sido}
+                  </option>
+                ))}
               </Select>
               <Select
                 placeholder="선택해주세요"
@@ -198,8 +217,11 @@ export default function RepairEstimatePage() {
                 variant="filled"
                 _hover={{}}
               >
-                <option value="송파구">송파구</option>
-                <option value="강남구">강남구</option>
+                {districtOptions.map((sigungu) => (
+                  <option key={sigungu} value={sigungu}>
+                    {sigungu}
+                  </option>
+                ))}
               </Select>
             </Flex>
           </Box>
@@ -217,8 +239,11 @@ export default function RepairEstimatePage() {
               variant="filled"
               _hover={{}}
             >
-              <option value="범퍼">범퍼</option>
-              <option value="문">도어</option>
+              {expectedBreakageArea.map((area) => (
+                <option key={area} value={area}>
+                  {area}
+                </option>
+              ))}
             </Select>
           </Box>
 
