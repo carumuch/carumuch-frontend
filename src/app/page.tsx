@@ -9,15 +9,15 @@ export default function HomePage() {
   const router = useRouter();
 
   const onKakaoLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/oauth2/authorization/kakao`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/oauth2/authorization/kakao`;
   };
 
   const onNaverLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/oauth2/authorization/naver`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/oauth2/authorization/naver`;
   };
 
   const onGoogleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_FRONTEND_SERVER}/oauth2/authorization/google`;
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_SERVER}/oauth2/authorization/google`;
   };
 
   const handleRegularLogin = () => {
