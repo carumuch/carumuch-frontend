@@ -83,6 +83,7 @@ export default function VehicleRegisterPage() {
               value={licenseNumber}
               onChange={(e) => setLicenseNumber(e.target.value)}
               variant="filled"
+              _hover={{}}
             />
           </Box>
 
@@ -98,6 +99,7 @@ export default function VehicleRegisterPage() {
               value={type}
               onChange={(e) => setType(e.target.value)}
               variant="filled"
+              _hover={{}}
             >
               <option value="개인">개인</option>
               <option value="법인/리스">법인/리스</option>
@@ -134,6 +136,7 @@ export default function VehicleRegisterPage() {
               value={modelYear}
               onChange={(e) => setModelYear(e.target.value)}
               variant="filled"
+              _hover={{}}
             />
           </Box>
 
@@ -149,6 +152,7 @@ export default function VehicleRegisterPage() {
               value={modelName}
               onChange={(e) => setModelName(e.target.value)}
               variant="filled"
+              _hover={{}}
             />
           </Box>
 
@@ -164,6 +168,7 @@ export default function VehicleRegisterPage() {
               value={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
               variant="filled"
+              _hover={{}}
             />
           </Box>
 
