@@ -16,12 +16,14 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import { AtSignIcon, LockIcon, EmailIcon, InfoIcon } from '@chakra-ui/icons';
-import { useModalContext } from '@/components/modal/ModalContext';
+// import { useModalContext } from '@/components/modal/ModalContext';
+import { useModalStore } from '@/components/modal/useModalStore';
 import { SignupData } from '@/types/d';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
-  const { openModal, setIsSignupSuccess } = useModalContext(); // 상태 변경 함수 사용
+  // const { openModal, setIsSignupSuccess } = useModalContext(); // 상태 변경 함수 사용
+  const openModal = useModalStore((state) => state.openModal);
   const [signupData, setSignupData] = useState<SignupData>({
     loginId: '',
     password: '',
@@ -108,7 +110,7 @@ export default function SignupPage() {
     try {
       await signup(apiData); // Axios를 통한 회원가입 요청
       setIsLoading(false);
-      setIsSignupSuccess(true); // 회원가입 성공 시 상태 설정
+      // setIsSignupSuccess(true); // 회원가입 성공 시 상태 설정
 
       // 성공 응답을 받은 경우
       openModal('성공', '회원가입이 성공적으로 완료되었습니다.');
@@ -116,10 +118,10 @@ export default function SignupPage() {
       // 회원가입 성공 후 /login 페이지로 리다이렉트
       setTimeout(() => {
         router.push('/login');
-      }, 1000); // 1초 후 리다이렉트 (사용자가 확인할 시간을 줌)
+      }, 500); // 1초 후 리다이렉트 (사용자가 확인할 시간을 줌)
     } catch (error: any) {
       setIsLoading(false);
-      setIsSignupSuccess(false); // 오류 발생 시 상태 초기화
+      // setIsSignupSuccess(false); // 오류 발생 시 상태 초기화
 
       // 백엔드 응답에 따른 오류 처리
       if (error.status === 409) {
