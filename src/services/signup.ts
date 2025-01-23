@@ -1,7 +1,8 @@
 import axiosInstance from '@/utils/axiosInstance';
 import { SignupData } from '@/types/d';
 
-const signup = async (data: SignupData) => {
+const signup = async (data: Omit<SignupData, 'confirmPassword'>) => {
+  console.log(data);
   try {
     const response = await axiosInstance.post('/users/signup', data);
     return response.data.user_id; // 성공 시 반환되는 user_id 반환

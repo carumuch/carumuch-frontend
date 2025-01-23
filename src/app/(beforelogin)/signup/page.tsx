@@ -25,6 +25,7 @@ export default function SignupPage() {
   const [signupData, setSignupData] = useState<SignupData>({
     loginId: '',
     password: '',
+    confirmPassword: '',
     email: '',
     name: '',
   });
@@ -32,6 +33,7 @@ export default function SignupPage() {
   const [errors, setErrors] = useState({
     loginId: '',
     password: '',
+    confirmPassword: '',
     email: '',
     name: '',
   });
@@ -63,8 +65,13 @@ export default function SignupPage() {
       isValid = false;
     }
 
-    // 이메일 유효성 검사: '@' 포함 여부로 간단히 체크
+    if (signupData.password !== signupData.confirmPassword) {
+      newErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+      isValid = false;
+    }
+
     if (!signupData.email.includes('@')) {
+      // 이메일 유효성 검사: '@' 포함 여부로 간단히 체크
       newErrors.email = '올바른 이메일 형식을 입력해주세요.';
       isValid = false;
     }
@@ -95,9 +102,11 @@ export default function SignupPage() {
       return;
     }
 
+    const { confirmPassword, ...apiData } = signupData;
+
     setIsLoading(true); // 로딩 상태 시작
     try {
-      await signup(signupData); // Axios를 통한 회원가입 요청
+      await signup(apiData); // Axios를 통한 회원가입 요청
       setIsLoading(false);
       setIsSignupSuccess(true); // 회원가입 성공 시 상태 설정
 
@@ -194,6 +203,25 @@ export default function SignupPage() {
               />
             </InputGroup>
             <FormErrorMessage>{errors.password}</FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.confirmPassword}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none" color="gray.500">
+                <LockIcon />
+              </InputLeftElement>
+              <Input
+                type="password"
+                variant="filled"
+                placeholder="비밀번호 확인"
+                bg="gray.700"
+                color="white"
+                name="confirmPassword"
+                value={signupData.confirmPassword}
+                onChange={handleChange}
+              />
+            </InputGroup>
+            <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
           </FormControl>
 
           {/* 이름 입력 필드 */}

@@ -12,6 +12,7 @@ export interface LoginResponse {
 export interface SignupData {
   loginId: string;
   password: string;
+  confirmPassword: string;
   email: string;
   name: string;
 }
