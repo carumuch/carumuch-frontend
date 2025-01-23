@@ -6,12 +6,22 @@ import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { logout } from '@/services/auth';
 
 export default function MyPage() {
   const router = useRouter();
 
   const handleNavigation = (path: string) => {
     router.push(path);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/');
+    } catch (error: any) {
+      console.error('Logout failed:', error.message);
+    }
   };
 
   return (
@@ -77,6 +87,20 @@ export default function MyPage() {
 
           {/* 메뉴 옵션 */}
           <Box>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              p={3}
+              bg="gray.700"
+              rounded="md"
+              mb={2}
+              onClick={handleLogout}
+            >
+              <Text color="white" fontSize="md">
+                로그아웃
+              </Text>
+              <ChevronRightIcon boxSize={6} color="gray.400" />
+            </Flex>
             <Flex
               justifyContent="space-between"
               alignItems="center"

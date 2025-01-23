@@ -29,4 +29,18 @@ const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
   }
 };
 
-export default login;
+const logout = async (): Promise<void> => {
+  try {
+    await axiosInstance.post('/logout');
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+  } catch (error: any) {
+    console.error(
+      'Logout error:',
+      error.response?.data.message || '로그아웃 요청 중 문제가 발생했습니다.',
+    );
+  }
+};
+
+export { login, logout };
