@@ -14,7 +14,7 @@ import { AtSignIcon, LockIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // useRouter 훅
 // import { useLoginStore } from '@/stores/useLoginStore'; // Zustand 상태
-import login from '@/services/auth';
+import { login } from '@/services/auth';
 import useModal from '@/hooks/useModal';
 import Link from 'next/link';
 
