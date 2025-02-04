@@ -34,3 +34,12 @@ export interface LoginState {
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
 }
+
+// API 응답 타입 정의
+export interface ApiResponse<T> {
+  success: boolean;
+  status: number;
+  code: string;
+  message: string;
+  response: T;
+}
