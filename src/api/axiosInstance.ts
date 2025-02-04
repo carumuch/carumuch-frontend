@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { useModalContext } from '@/components/modal/ModalContext';
-import { useRouter } from 'next/navigation';
+import axios, { AxiosResponse } from 'axios';
+import { ApiResponse } from '@/types/d';
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_SERVER, // 예시로 기본 URL을 설정합니다.
@@ -27,20 +26,17 @@ axiosInstance.interceptors.request.use(
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response) => response, // 응답 처리
-  (error) => {
-    const status = error.response?.status;
-    const router = useRouter();
-    const { openModal } = useModalContext();
-
-    if (status === 401) {
-      openModal('로그인 필요', '다시 로그인 해주세요');
-
-      setTimeout(() => {
-        router.push('/main');
-      }, 2000);
+  (response: AxiosResponse<ApiResponse<any>>) => {
+    const data = response.data;
+    if (!data.success) {
+      return Promise.reject(
+        new Error(data.message) || '알 수 없는 오류가 발생하였습니다.',
+      );
     }
-
+    // 성공 케이스라면 원하는 데이터만 반환
+    return data.response;
+  },
+  (error) => {
     return Promise.reject(error);
   },
 );
