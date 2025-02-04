@@ -1,5 +1,5 @@
 // src/services/board.ts
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 interface PostResponse {
   id: number;

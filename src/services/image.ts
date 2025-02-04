@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // 이미지 업로드 API 호출 함수
 const uploadImage = async (image: File): Promise<string> => {

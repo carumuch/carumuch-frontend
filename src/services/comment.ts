@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // 댓글 작성
 export const writeComment = async (boardId: number, commentContent: string) => {

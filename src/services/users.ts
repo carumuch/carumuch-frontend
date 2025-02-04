@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // 유저 정보 가져오기
 const getUserInfo = async () => {

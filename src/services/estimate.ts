@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // 차량 견적 등록 API
 const registerVehicleEstimate = async (

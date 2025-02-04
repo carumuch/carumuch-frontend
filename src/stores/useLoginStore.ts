@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { LoginCredentials, LoginResponse, LoginState } from '@/types/d';
-import axiosInstance from '../utils/axiosInstance';
+import axiosInstance from '../api/axiosInstance';
 
 const useLoginStore = create<LoginState>((set) => ({
   token: null,
