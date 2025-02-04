@@ -6,21 +6,26 @@ import Header from '@/components/header/Header'; // 기존 헤더 사용
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { logout } from '@/services/auth';
+import { logout } from '@/services/auth/index';
+import { useModalStore } from '@/components/modal/useModalStore';
+import { handleAsync } from '@/utils/handleAsync';
 
 export default function MyPage() {
   const router = useRouter();
+  const openModal = useModalStore((state) => state.openModal);
 
   const handleNavigation = (path: string) => {
     router.push(path);
   };
 
   const handleLogout = async () => {
-    try {
-      await logout();
+    const [message, error] = await handleAsync(logout());
+    if (error) {
+      openModal('로그아웃 실패', error.message);
+      return;
+    } else {
+      openModal('성공', message || '로그아웃되었습니다.');
       router.push('/');
-    } catch (error: any) {
-      console.error('Logout failed:', error.message);
     }
   };
 
