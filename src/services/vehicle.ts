@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // 차량 정보 조회 API
 export const getVehicleInfo = async () => {

@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 import { SignupData } from '@/types/d';
 
 const signup = async (data: Omit<SignupData, 'confirmPassword'>) => {

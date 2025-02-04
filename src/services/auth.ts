@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 import { LoginCredentials, LoginResponse } from '../types/d';
 
 const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {

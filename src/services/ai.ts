@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/api/axiosInstance';
 
 // AI 견적 API 호출 함수
 const classify = async (data: { manufacturer: string; url: string }) => {
