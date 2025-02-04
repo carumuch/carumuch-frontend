@@ -28,22 +28,25 @@ axiosInstance.interceptors.request.use(
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse<ApiResponse<any>>) => {
-    // 로그인, 회원가입 API는 헤더를 살리기 위해 원본 응답 반환. 추후 분리 필요
-    if (response.config.url === '/login' || response.config.url === '/signup') {
-      return response;
-    }
     const data = response.data;
 
+    // 성공이 아닌 경우 에러 처리
     if (!data.success) {
-      return Promise.reject(
-        new Error(data.message || '알 수 없는 오류가 발생하였습니다.'),
-      );
+      return Promise.reject(new Error(data.message));
     }
-    // 성공 케이스라면 원하는 데이터만 반환
+
+    // 로그인, 회원가입 API는 전체 응답 데이터 반환
+    if (response.config.url === '/login' || response.config.url === '/signup') {
+      return data; // response가 아닌 data 반환
+    }
+
+    // 나머지는 response 데이터만 반환
     return data.response;
   },
   (error) => {
-    return Promise.reject(error);
+    const message =
+      error.response?.data?.message || '알 수 없는 오류가 발생하였습니다.';
+    return Promise.reject(new Error(message));
   },
 );
 
